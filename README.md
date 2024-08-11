@@ -58,7 +58,7 @@ letter To Me (나에게 보내는 편지)
 ```
 
 ## 디자인
-2024.08.10 ~ 08.11
+**2024.08.10 ~ 08.11**
 
 - 로그인
 <img width="1240" alt="image" src="https://github.com/user-attachments/assets/1065499c-ed54-4a3f-98e1-6ef3744f3ffa">
@@ -118,7 +118,7 @@ letter To Me (나에게 보내는 편지)
 
 
 ## 백엔드
-
+**2024.08.11~**
 ### ERD설계
 ![image](https://github.com/user-attachments/assets/e9b5a7fa-3e21-48ea-922a-74a0a8e465c9)
 
