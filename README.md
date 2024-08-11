@@ -1,10 +1,11 @@
 # Letter To Me - 미래의 나에게 편지를 보내보세요! 
-
+2024.08.10~
 ## 목차
-- [기획](#기획)
-- [디자인](#디자인)
+- [기획](##기획)
+- [디자인](##디자인)
 
-# 기획
+## 기획
+2024.08.10
 ```
 letter To Me (나에게 보내는 편지)
 
@@ -43,6 +44,7 @@ letter To Me (나에게 보내는 편지)
 ```
 
 # 디자인
+2024.08.10 ~ 08.11
 - 로그인
 <img width="426" alt="image" src="https://github.com/user-attachments/assets/b922ec4b-f24b-4361-b588-842b0c0e05fe">
 
@@ -85,7 +87,6 @@ letter To Me (나에게 보내는 편지)
 
 - 설정
 <img width="839" alt="image" src="https://github.com/user-attachments/assets/3a51ce5c-da02-44ef-a963-1d171b224b39">
-
 
 - 랜딩페이지
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/397dcf61-5ecc-44a4-8fa0-cd2ebbc6505b">
