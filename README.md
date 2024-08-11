@@ -82,6 +82,9 @@ letter To Me (나에게 보내는 편지)
 - 작성한 편지 보기 페이지
 <img width="1261" alt="image" src="https://github.com/user-attachments/assets/9691f170-0fb7-4cee-909f-4cc044b51cc8">
 
+- 저장한 편지 보기 페이지
+<img width="1318" alt="image" src="https://github.com/user-attachments/assets/d4f8d0b4-973f-4a9f-9934-a0dc1c16ac7e">
+
 - 프로필
 <img width="840" alt="image" src="https://github.com/user-attachments/assets/93cf37af-8a7f-4a7f-aa0a-51fa55bc3191">
 
