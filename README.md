@@ -45,18 +45,18 @@ letter To Me (나에게 보내는 편지)
 
 ## 디자인
 2024.08.10 ~ 08.11
+
 - 로그인
-<img width="426" alt="image" src="https://github.com/user-attachments/assets/b922ec4b-f24b-4361-b588-842b0c0e05fe">
+<img width="1240" alt="image" src="https://github.com/user-attachments/assets/1065499c-ed54-4a3f-98e1-6ef3744f3ffa">
 
 - 회원가입
-<img width="1047" alt="image" src="https://github.com/user-attachments/assets/c0f30222-9a4b-4c64-b6df-caab84471c42">
+<img width="1291" alt="image" src="https://github.com/user-attachments/assets/b943dd35-d5b0-4f09-bd41-87c89ffc4161">
 
 - 비밀번호 찾기(이메일 인증 후 비밀번호 변경 페이지로 이동)
-<img width="843" alt="image" src="https://github.com/user-attachments/assets/3188d22c-6aaf-4a6d-9cce-27f56947697f">
+<img width="1276" alt="image" src="https://github.com/user-attachments/assets/c692ef54-5af4-4d79-b3fe-fd742d1aca62">
 
 - 비밀번호 변경(변경 후 로그인 페이지로 리다이렉트)
-<img width="843" alt="image" src="https://github.com/user-attachments/assets/fff6a63b-c236-4ad1-8e9f-d0cc869886e4">
-
+<img width="1265" alt="image" src="https://github.com/user-attachments/assets/b9d36851-0a93-49e9-9400-04907d6e1000">
 
 - 메인페이지
 <img width="1084" alt="image" src="https://github.com/user-attachments/assets/a5f7c589-6e0d-46ad-9dd6-4f73201829b0">
@@ -91,6 +91,9 @@ letter To Me (나에게 보내는 편지)
 - 랜딩페이지
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/397dcf61-5ecc-44a4-8fa0-cd2ebbc6505b">
 
+- 전체 화면
+<img width="1412" alt="image" src="https://github.com/user-attachments/assets/d98901b8-c475-44b6-aeb1-8c22a93d3458">
+- 바탕이 흰색인 버튼에는 모두 호버 효과를 넣어서 사용자가 확인하기 쉽게 만들 예정
 
 
 
