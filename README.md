@@ -8,10 +8,15 @@
 <a href=https://learning-study.tistory.com/entry/Letter-To-Me-%EB%AF%B8%EB%9E%98%EC%9D%98-%EB%82%98%EC%97%90%EA%B2%8C-%ED%8E%B8%EC%A7%80%EB%A5%BC-%EB%B3%B4%EB%82%B4%EB%8A%94-%EC%9B%B9-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%88%98%EC%A0%95>[Letter To Me] 미래의 나에게 편지를 보내는 웹 서비스 - 디자인 수정</a></br>
 
 - 백엔드
+  
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-ERD-%EC%84%A4%EA%B3%84-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] 프로젝트 ERD 설계 - 백엔드</a></br>
 
 ## 목차
 - [기획](#기획)
 - [디자인](#디자인)
+- [백엔드](#백엔드)
+  * [ERD설계](#ERD설계)
+
 
 ## 기획
 2024.08.10
@@ -114,6 +119,10 @@ letter To Me (나에게 보내는 편지)
 
 ## 백엔드
 
+### ERD설계
+![image](https://github.com/user-attachments/assets/e9b5a7fa-3e21-48ea-922a-74a0a8e465c9)
+
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-ERD-%EC%84%A4%EA%B3%84-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] 프로젝트 ERD 설계 - 백엔드</a></br>
 
 
 
