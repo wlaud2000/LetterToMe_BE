@@ -100,11 +100,15 @@ letter To Me (나에게 보내는 편지)
 - 설정
 <img width="839" alt="image" src="https://github.com/user-attachments/assets/3a51ce5c-da02-44ef-a963-1d171b224b39">
 
+- 이메일 변경 페이지
+<img width="1138" alt="image" src="https://github.com/user-attachments/assets/77e738d8-fb96-4c0a-bac7-8d4212f11bb1">
+
 - 랜딩페이지
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/397dcf61-5ecc-44a4-8fa0-cd2ebbc6505b">
 
 - 전체 화면
-<img width="1412" alt="image" src="https://github.com/user-attachments/assets/d98901b8-c475-44b6-aeb1-8c22a93d3458">
+<img width="1416" alt="image" src="https://github.com/user-attachments/assets/6b8dcf60-cdaa-4c0e-bd4f-a3a7f4d2e85e">
+
 - 바탕이 흰색인 버튼에는 모두 호버 효과를 넣어서 사용자가 확인하기 쉽게 만들 예정
 
 
