@@ -1,5 +1,14 @@
 # Letter To Me - 미래의 나에게 편지를 보내보세요! 
-2024.08.10~
+**2024.08.10~**
+
+### 블로그 글
+- 기획/디자인
+   
+<a href=https://learning-study.tistory.com/entry/%ED%86%A0%EC%9D%B4-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%AF%B8%EB%9E%98%EC%9D%98-%EB%82%98%EC%97%90%EA%B2%8C-%ED%8E%B8%EC%A7%80%EB%A5%BC-%EB%B3%B4%EB%82%B4%EB%8A%94-%EC%9B%B9-%EC%84%9C%EB%B9%84%EC%8A%A4-Letter-To-Me-%EA%B8%B0%ED%9A%8D%EB%94%94%EC%9E%90%EC%9D%B8>[개인 프로젝트] 미래의 나에게 편지를 보내는 웹 서비스 Letter To Me - 기획/디자인</a></br>
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-%EB%AF%B8%EB%9E%98%EC%9D%98-%EB%82%98%EC%97%90%EA%B2%8C-%ED%8E%B8%EC%A7%80%EB%A5%BC-%EB%B3%B4%EB%82%B4%EB%8A%94-%EC%9B%B9-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%88%98%EC%A0%95>[Letter To Me] 미래의 나에게 편지를 보내는 웹 서비스 - 디자인 수정</a></br>
+
+- 백엔드
+
 ## 목차
 - [기획](#기획)
 - [디자인](#디자인)
@@ -99,6 +108,7 @@ letter To Me (나에게 보내는 편지)
 - 바탕이 흰색인 버튼에는 모두 호버 효과를 넣어서 사용자가 확인하기 쉽게 만들 예정
 
 
+## 백엔드
 
 
 
