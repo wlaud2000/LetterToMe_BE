@@ -43,7 +43,7 @@ letter To Me (나에게 보내는 편지)
 
 ```
 
-# 디자인
+## 디자인
 2024.08.10 ~ 08.11
 - 로그인
 <img width="426" alt="image" src="https://github.com/user-attachments/assets/b922ec4b-f24b-4361-b588-842b0c0e05fe">
