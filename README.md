@@ -68,12 +68,17 @@ letter To Me (나에게 보내는 편지)
 
 ## 백엔드
 **2024.08.11~**
+
+---
+
 ### ERD설계
 **2024.08.11**
 
 ![image](https://github.com/user-attachments/assets/e9b5a7fa-3e21-48ea-922a-74a0a8e465c9)
 
 <a href=https://learning-study.tistory.com/entry/Letter-To-Me-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-ERD-%EC%84%A4%EA%B3%84-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] 프로젝트 ERD 설계 - 백엔드</a></br>
+
+---
 
 ### API명세서
 
@@ -93,4 +98,18 @@ https://fortune-squash-ece.notion.site/Letter-To-Me-API-da31ec7fbd6143e2ade73ec6
 
 
 
+---
+
+#  ✏️Commit Message Convention
+| Emoticon | Commit Type | Desc |
+| --- | --- | --- |
+|  ✨  | feat | 새로운 기능 추가 |
+| 🐛  | fix | 버그 수정 |
+| 📝 | docs | 문서 수정 (md 파일) |
+| ♻️  | refactor | 코드 리팩토링 |
+| 💄  | style | 코드 formatting, 세미콜론 누락, 코드 자체의 변경이 없는 경우 |
+| ✅  | test | 테스트 코드, 리팩토링 테스트 코드 추가 |
+| 🚀  | chore | 패키지 매니저 수정 (Dockerfile, gradle, sh, yml) |
+| 🚑  | !hotfix | 급하게 치명적인 버그를 고쳐야 하는 경우 |
+| 💚  | ci/cd | CI/CD 빌드 시스템 자체를 새로 추가하거나, 그 구조나 설정을 수정하는 커밋 |
 
