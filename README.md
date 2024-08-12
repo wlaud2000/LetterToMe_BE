@@ -10,6 +10,7 @@
 - 백엔드
   
 <a href=https://learning-study.tistory.com/entry/Letter-To-Me-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-ERD-%EC%84%A4%EA%B3%84-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] 프로젝트 ERD 설계 - 백엔드</a></br>
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-API-%EB%AA%85%EC%84%B8%EC%84%9C-%EC%9E%91%EC%84%B1-%EC%99%84%EB%A3%8C-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] API 명세서 작성 완료 - 백엔드</a></br>
 
 ## 목차
 - [기획](#기획)
@@ -68,12 +69,27 @@ letter To Me (나에게 보내는 편지)
 ## 백엔드
 **2024.08.11~**
 ### ERD설계
+**2024.08.11**
+
 ![image](https://github.com/user-attachments/assets/e9b5a7fa-3e21-48ea-922a-74a0a8e465c9)
 
 <a href=https://learning-study.tistory.com/entry/Letter-To-Me-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-ERD-%EC%84%A4%EA%B3%84-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] 프로젝트 ERD 설계 - 백엔드</a></br>
 
 ### API명세서
+
+**2024.08.12**
+
+- API 명세서 노션 링크입니다.
+
 https://fortune-squash-ece.notion.site/Letter-To-Me-API-da31ec7fbd6143e2ade73ec6d4a8d893?pvs=4
+
+<img width="400" alt="image" src="https://github.com/user-attachments/assets/baea1a65-41ff-4521-bc0d-6ddf9d56a420">
+<img width="400" alt="image" src="https://github.com/user-attachments/assets/ca7415d4-d22b-495b-8cc0-f2cb4b55e8d7">
+
+
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-API-%EB%AA%85%EC%84%B8%EC%84%9C-%EC%9E%91%EC%84%B1-%EC%99%84%EB%A3%8C-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] API 명세서 작성 완료 - 백엔드</a></br>
+
+- API 명세서 관련 블로그 글 입니다. API 명세서 작성하면서 한 고민들을 작성하였습니다.
 
 
 
