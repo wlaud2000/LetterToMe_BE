@@ -16,6 +16,7 @@
 - [디자인](#디자인)
 - [백엔드](#백엔드)
   * [ERD설계](#ERD설계)
+  * [API명세서](#API명세서)
 
 
 ## 기획
@@ -71,7 +72,8 @@ letter To Me (나에게 보내는 편지)
 
 <a href=https://learning-study.tistory.com/entry/Letter-To-Me-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-ERD-%EC%84%A4%EA%B3%84-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] 프로젝트 ERD 설계 - 백엔드</a></br>
 
-
+### API명세서
+https://fortune-squash-ece.notion.site/Letter-To-Me-API-da31ec7fbd6143e2ade73ec6d4a8d893?pvs=4
 
 
 
