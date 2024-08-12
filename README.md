@@ -60,62 +60,9 @@ letter To Me (나에게 보내는 편지)
 ## 디자인
 **2024.08.10 ~ 08.11**
 
-- 로그인
-<img width="1240" alt="image" src="https://github.com/user-attachments/assets/1065499c-ed54-4a3f-98e1-6ef3744f3ffa">
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-%EB%AF%B8%EB%9E%98%EC%9D%98-%EB%82%98%EC%97%90%EA%B2%8C-%ED%8E%B8%EC%A7%80%EB%A5%BC-%EB%B3%B4%EB%82%B4%EB%8A%94-%EC%9B%B9-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%88%98%EC%A0%95>[Letter To Me] 미래의 나에게 편지를 보내는 웹 서비스 - 디자인 수정</a></br>
 
-- 회원가입
-<img width="1291" alt="image" src="https://github.com/user-attachments/assets/b943dd35-d5b0-4f09-bd41-87c89ffc4161">
-
-- 비밀번호 찾기(이메일 인증 후 비밀번호 변경 페이지로 이동)
-<img width="1276" alt="image" src="https://github.com/user-attachments/assets/c692ef54-5af4-4d79-b3fe-fd742d1aca62">
-
-- 비밀번호 변경(변경 후 로그인 페이지로 리다이렉트)
-<img width="1265" alt="image" src="https://github.com/user-attachments/assets/b9d36851-0a93-49e9-9400-04907d6e1000">
-
-- 메인페이지
-<img width="1084" alt="image" src="https://github.com/user-attachments/assets/a5f7c589-6e0d-46ad-9dd6-4f73201829b0">
-
-- 메인페이지(프로필클릭)
-<img width="1078" alt="image" src="https://github.com/user-attachments/assets/594bbb50-bc3a-4a24-8e06-2e70659f9d51">
-
-- 메인페이지(편지작성하기 Hover)
-<img width="1077" alt="image" src="https://github.com/user-attachments/assets/459bcf7e-d6bd-4dbd-8570-e02123025740">
-
-- 메인페이지(저장한 편지 보기Hover)
-<img width="1082" alt="image" src="https://github.com/user-attachments/assets/7a722d08-b5ba-4542-b4e6-3bca18162d58">
-
-- 편지 작성 페이지
-<img width="1349" alt="image" src="https://github.com/user-attachments/assets/4770a2ac-3647-4961-9ffe-a10682831426">
-
-- 편지 작성 다음 페이지
-<img width="1332" alt="image" src="https://github.com/user-attachments/assets/192f8a53-1a43-450c-b3f2-0778fad38d15">
-
-- 편지 작성 페이지(마크다운 사용방법 클릭)
-<img width="1329" alt="image" src="https://github.com/user-attachments/assets/98c20734-fd87-4390-92cd-4641e10780c1">
-
-- 작성한 편지 보기 페이지
-<img width="1261" alt="image" src="https://github.com/user-attachments/assets/9691f170-0fb7-4cee-909f-4cc044b51cc8">
-
-- 저장한 편지 보기 페이지
-<img width="1318" alt="image" src="https://github.com/user-attachments/assets/d4f8d0b4-973f-4a9f-9934-a0dc1c16ac7e">
-
-- 프로필
-<img width="840" alt="image" src="https://github.com/user-attachments/assets/93cf37af-8a7f-4a7f-aa0a-51fa55bc3191">
-
-- 설정
-<img width="839" alt="image" src="https://github.com/user-attachments/assets/3a51ce5c-da02-44ef-a963-1d171b224b39">
-
-- 이메일 변경 페이지
-<img width="1138" alt="image" src="https://github.com/user-attachments/assets/77e738d8-fb96-4c0a-bac7-8d4212f11bb1">
-
-- 랜딩페이지
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/397dcf61-5ecc-44a4-8fa0-cd2ebbc6505b">
-
-- 전체 화면
-<img width="1416" alt="image" src="https://github.com/user-attachments/assets/6b8dcf60-cdaa-4c0e-bd4f-a3a7f4d2e85e">
-
-- 바탕이 흰색인 버튼에는 모두 호버 효과를 넣어서 사용자가 확인하기 쉽게 만들 예정
-
+- 위 블로그 글에 디자인 정리해두었습니다.
 
 ## 백엔드
 **2024.08.11~**
