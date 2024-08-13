@@ -11,6 +11,8 @@
   
 <a href=https://learning-study.tistory.com/entry/Letter-To-Me-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-ERD-%EC%84%A4%EA%B3%84-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] 프로젝트 ERD 설계 - 백엔드</a></br>
 <a href=https://learning-study.tistory.com/entry/Letter-To-Me-API-%EB%AA%85%EC%84%B8%EC%84%9C-%EC%9E%91%EC%84%B1-%EC%99%84%EB%A3%8C-%EB%B0%B1%EC%97%94%EB%93%9C>[Letter To Me] API 명세서 작성 완료 - 백엔드</a></br>
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%B3%84-Entity-%EC%9E%91%EC%84%B1-%EB%B0%8F-%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%84%A4%EC%A0%95-%EB%B0%B1%EC%97%94%EB%93%9C>
+[Letter To Me] 도메인 별 Entity 작성 및 연관관계 설정 - 백엔드</a></br>
 
 ## 목차
 - [기획](#기획)
@@ -18,6 +20,7 @@
 - [백엔드](#백엔드)
   * [ERD설계](#ERD설계)
   * [API명세서](#API명세서)
+  * [Project Architecture](#ProjectArchitecture)
 
 
 ## 기획
@@ -96,7 +99,15 @@ https://fortune-squash-ece.notion.site/Letter-To-Me-API-da31ec7fbd6143e2ade73ec6
 
 - API 명세서 관련 블로그 글 입니다. API 명세서 작성하면서 한 고민들을 작성하였습니다.
 
+---
 
+### Project Architecture
+![image](https://github.com/user-attachments/assets/d16ecc57-adf5-41d4-9d1f-9011a0f5c81e)
+
+![image](https://github.com/user-attachments/assets/36107b8b-22dd-4207-b3f8-2076b1cbf863)
+
+<a href=https://learning-study.tistory.com/entry/Letter-To-Me-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%B3%84-Entity-%EC%9E%91%EC%84%B1-%EB%B0%8F-%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%84%A4%EC%A0%95-%EB%B0%B1%EC%97%94%EB%93%9C>
+[Letter To Me] 도메인 별 Entity 작성 및 연관관계 설정 - 백엔드</a></br>
 
 ---
 
