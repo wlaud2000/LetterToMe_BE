@@ -101,7 +101,7 @@ https://fortune-squash-ece.notion.site/Letter-To-Me-API-da31ec7fbd6143e2ade73ec6
 
 ---
 
-### Project Architecture
+### ProjectArchitecture
 ![image](https://github.com/user-attachments/assets/d16ecc57-adf5-41d4-9d1f-9011a0f5c81e)
 
 ![image](https://github.com/user-attachments/assets/36107b8b-22dd-4207-b3f8-2076b1cbf863)
