@@ -1,20 +1,19 @@
-package com.project.lettertome_be.global.security;
+package com.project.lettertome_be.domain.user.jwt.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
     private final String email;
+    private final String password;
 
-    public CustomUserDetails(String email) {
+    public CustomUserDetails(String email, String password) {
         this.email = email;
+        this.password = password;
     }
 
     @Override
@@ -24,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override

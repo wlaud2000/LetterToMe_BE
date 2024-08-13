@@ -1,6 +1,7 @@
-package com.project.lettertome_be.global.common.utils;
+package com.project.lettertome_be.domain.user.jwt.util;
 
-import com.project.lettertome_be.global.security.CustomUserDetails;
+import com.project.lettertome_be.domain.user.jwt.dto.JwtDto;
+import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -18,8 +19,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -103,20 +102,22 @@ public class JwtUtil {
 
     }
 
-    // 제공된 리프레시 토큰을 기반으로 Jwt 쌍을 다시 발급
-    public Map<String, String> reissueToken(String refreshToken) throws SignatureException {
+    // 제공된 리프레시 토큰을 기반으로 JwtDto 쌍을 다시 발급
+    public JwtDto reissueToken(String refreshToken) throws SignatureException {
         String email = getEmail(refreshToken);
 
         // refreshToken 에서 user 정보를 가져와서 새로운 토큰을 발급 (발급 시간, 유효 시간(reset)만 새로 적용)
-        CustomUserDetails userDetails = new CustomUserDetails(email);
+        CustomUserDetails userDetails = new CustomUserDetails(
+                email,
+                null
+        );
         log.info("[ JwtUtil ] 새로운 토큰을 재발급 합니다.");
 
         // 재발급
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("accessToken", createJwtAccessToken(userDetails));
-        tokenMap.put("refreshToken", createJwtRefreshToken(userDetails));
-
-        return tokenMap;
+        return new JwtDto(
+                createJwtAccessToken(userDetails),
+                createJwtRefreshToken(userDetails)
+        );
     }
 
     // HTTP 요청의 'Authorization' 헤더에서 JWT 액세스 토큰을 검색
