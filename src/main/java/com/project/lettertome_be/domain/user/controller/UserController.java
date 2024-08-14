@@ -1,6 +1,7 @@
 package com.project.lettertome_be.domain.user.controller;
 
 import com.project.lettertome_be.domain.user.dto.request.ChangeEmailRequestDto;
+import com.project.lettertome_be.domain.user.dto.request.ChangeNickNameRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.ChangePasswordRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.SignUpRequestDto;
 import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
@@ -60,5 +61,15 @@ public class UserController {
         String email = userDetails.getUsername();
         userService.changeEmail(email, changeEmailRequestDto);
         return ResponseEntity.ok(Map.of("message","이메일이 성공적으로 변경되었습니다. 다시 로그인 해주세요."));
+    }
+
+    //이름 변경
+    @PatchMapping("/nickname")
+    public ResponseEntity<Map<String, String>> changeNickName(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                              @RequestBody @Valid ChangeNickNameRequestDto changeNickNameRequestDto) {
+
+        String email = userDetails.getUsername();
+        userService.changeNickName(email, changeNickNameRequestDto);
+        return ResponseEntity.ok(Map.of("message", "이름이 성공적으로 변경되었습니다."));
     }
 }
