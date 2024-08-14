@@ -27,15 +27,15 @@ public class UserService {
     private final LocalUserRepository localUserRepository;
     private final PasswordEncoder passwordEncoder; //비밀번호 암호화
 
-    //회원가입
+    // 회원가입
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
 
-        //이메일 중복 확인
+        // 이메일 중복 확인
         if(userRepository.existsByEmail(signUpRequestDto.email())) {
             throw new RuntimeException("해당 이메일이 이미 존재합니다.");
         }
 
-        //User 엔티티 생성 및 저장
+        // User 엔티티 생성 및 저장
         User user = User.builder()
                 .email(signUpRequestDto.email())
                 .nickName(signUpRequestDto.nickName())
@@ -43,9 +43,10 @@ public class UserService {
 
         User savedUser = userRepository.save(user);
 
-        //LocalUser 엔티티 생성 및 저장
+        // LocalUser 엔티티 생성 및 저장
         LocalUser localUser = LocalUser.builder()
                 .user(savedUser)
+                .email(savedUser.getEmail())  // User의 이메일로 초기화
                 .password(passwordEncoder.encode(signUpRequestDto.password()))
                 .build();
 
@@ -84,11 +85,14 @@ public class UserService {
         //기존 이메일로 user 조회
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
+        user.changeEmail(newEmail); //조회한 user의 이메일 변경
 
-        //조회한 user의 이메일 변경
-        user.changeEmail(newEmail);
+        LocalUser localUser = localUserRepository.findByUser(user)
+                .orElseThrow(() -> new NoSuchElementException("LocalUser 정보가 존재하지 않습니다."));
+        localUser.changeEmail(newEmail); // LocalUser의 이메일도 함께 변경
 
         log.info("[User Service] 이메일이 변경되었습니다 -> {}", newEmail);
+
 
         //로그아웃 구현되면 로그아웃 실행
         /*log.info("[User Service] 로그아웃 되었습니다. 다시 로그인 해주세요.");*/
