@@ -26,4 +26,12 @@ public class User extends BaseEntity {
 
     /*@Column(name = "profile_img")
     private String profileImg;*/
+
+    public void changeEmail(String newEmail) {
+        this.email = newEmail;
+    }
+
+    public void changeNickName(String newNickName) {
+        this.nickName = newNickName;
+    }
 }
