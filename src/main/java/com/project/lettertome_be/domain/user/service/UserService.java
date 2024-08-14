@@ -46,7 +46,6 @@ public class UserService {
         // LocalUser 엔티티 생성 및 저장
         LocalUser localUser = LocalUser.builder()
                 .user(savedUser)
-                .email(savedUser.getEmail())  // User의 이메일로 초기화
                 .password(passwordEncoder.encode(signUpRequestDto.password()))
                 .build();
 
@@ -85,11 +84,9 @@ public class UserService {
         //기존 이메일로 user 조회
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
-        user.changeEmail(newEmail); //조회한 user의 이메일 변경
 
-        LocalUser localUser = localUserRepository.findByUser(user)
-                .orElseThrow(() -> new NoSuchElementException("LocalUser 정보가 존재하지 않습니다."));
-        localUser.changeEmail(newEmail); // LocalUser의 이메일도 함께 변경
+        //조회한 user의 이메일 변경
+        user.changeEmail(newEmail); //조회한 user의 이메일 변경
 
         log.info("[User Service] 이메일이 변경되었습니다 -> {}", newEmail);
 
