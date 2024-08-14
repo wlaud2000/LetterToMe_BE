@@ -1,5 +1,6 @@
 package com.project.lettertome_be.domain.user.service;
 
+import com.project.lettertome_be.domain.user.dto.request.ChangePasswordRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.SignUpRequestDto;
 import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
 import com.project.lettertome_be.domain.user.entity.LocalUser;
@@ -7,11 +8,15 @@ import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.repository.LocalUserRepository;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
@@ -46,5 +51,27 @@ public class UserService {
 
         // 저장된 User 엔티티를 DTO로 변환하여 반환
         return SignUpResponseDto.from(savedUser);
+    }
+
+    //비밀번호 변경
+    public void changePassword(String email, ChangePasswordRequestDto changePasswordRequestDto) {
+
+        String newPassword = changePasswordRequestDto.newPassword();
+
+        //이메일로 유저 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
+
+        //조회한 user 객체로 LocalUser 조회
+        LocalUser localUser = localUserRepository.findByUser(user)
+                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
+
+        //조회한 localUser 객체의 비밀번호 변경
+        localUser.changePassword(passwordEncoder.encode(newPassword));
+
+        log.info("[User Service] 사용자의 비밀번호가 변경되었습니다.");
+
+        //로그아웃 구현되면 로그아웃 실행
+        /*log.info("[User Service] 로그아웃 되었습니다. 다시 로그인 해주세요.");*/
     }
 }

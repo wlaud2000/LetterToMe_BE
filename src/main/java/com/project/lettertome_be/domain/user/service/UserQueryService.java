@@ -16,6 +16,7 @@ public class UserQueryService {
 
     private final UserRepository userRepository;
 
+    //회원 정보 조회
     public UserResponseDto getUserByEmail(String email) {
 
         User user = userRepository.findByEmail(email)
