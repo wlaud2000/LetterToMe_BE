@@ -1,5 +1,6 @@
 package com.project.lettertome_be.domain.user.controller;
 
+import com.project.lettertome_be.domain.user.dto.request.ChangeEmailRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.ChangePasswordRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.SignUpRequestDto;
 import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
@@ -41,7 +42,7 @@ public class UserController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    //비밀번호 변경
+    //비밀번호 변경(로컬유저만 해당)
     @PutMapping("/pw")
     public ResponseEntity<Map<String, String>> changePassword(@AuthenticationPrincipal CustomUserDetails userDetails,
                                             @RequestBody @Valid ChangePasswordRequestDto changePasswordRequestDto) {
@@ -49,5 +50,15 @@ public class UserController {
         String email = userDetails.getUsername();
         userService.changePassword(email, changePasswordRequestDto);
         return ResponseEntity.ok(Map.of("message", "비밀번호가 성공적으로 변경되었습니다. 다시 로그인 해주세요"));
+    }
+
+    //이메일 변경(로컬유저만 해당)
+    @PatchMapping("/email")
+    public ResponseEntity<Map<String, String>> changeEmail(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                           @RequestBody @Valid ChangeEmailRequestDto changeEmailRequestDto) {
+
+        String email = userDetails.getUsername();
+        userService.changeEmail(email, changeEmailRequestDto);
+        return ResponseEntity.ok(Map.of("message","이메일이 성공적으로 변경되었습니다. 다시 로그인 해주세요."));
     }
 }

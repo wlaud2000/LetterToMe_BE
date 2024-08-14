@@ -1,5 +1,6 @@
 package com.project.lettertome_be.domain.user.service;
 
+import com.project.lettertome_be.domain.user.dto.request.ChangeEmailRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.ChangePasswordRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.SignUpRequestDto;
 import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
@@ -70,6 +71,23 @@ public class UserService {
         localUser.changePassword(passwordEncoder.encode(newPassword));
 
         log.info("[User Service] 사용자의 비밀번호가 변경되었습니다.");
+
+        //로그아웃 구현되면 로그아웃 실행
+        /*log.info("[User Service] 로그아웃 되었습니다. 다시 로그인 해주세요.");*/
+    }
+
+    //유저 이메일 변경
+    public void changeEmail(String email, ChangeEmailRequestDto changeEmailRequestDto) {
+
+        String newEmail = changeEmailRequestDto.newEmail();
+        //기존 이메일로 user 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
+
+        //조회한 user의 이메일 변경
+        user.changeEmail(newEmail);
+
+        log.info("[User Service] 이메일이 변경되었습니다 -> {}", newEmail);
 
         //로그아웃 구현되면 로그아웃 실행
         /*log.info("[User Service] 로그아웃 되었습니다. 다시 로그인 해주세요.");*/
