@@ -72,4 +72,13 @@ public class UserController {
         userService.changeNickName(email, changeNickNameRequestDto);
         return ResponseEntity.ok(Map.of("message", "이름이 성공적으로 변경되었습니다."));
     }
+
+    //회원 탈퇴
+    @DeleteMapping("")
+    public ResponseEntity<Map<String, String>> deleteUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        String email = userDetails.getUsername();
+        userService.deleteUser(email);
+        return ResponseEntity.ok(Map.of("message", "회원 탈퇴가 완료되었습니다."));
+    }
 }

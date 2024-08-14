@@ -107,4 +107,22 @@ public class UserService {
 
         log.info("[User Service] 이름이 변경되었습니다 -> {}", newNickName);
     }
+
+    //유저 삭제
+    public void deleteUser(String email) {
+
+        //이메일로 user 조회
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
+
+        //user로 localUser 조회
+        LocalUser localUser = localUserRepository.findByUser(user)
+                        .orElseThrow(()-> new NoSuchElementException("LocalUser가 존재하지 않습니다."));
+
+        //user 삭제
+        localUserRepository.delete(localUser);
+        userRepository.delete(user);
+
+        log.info("[User Service] 사용자가 성공적으로 삭제되었습니다.");
+    }
 }
