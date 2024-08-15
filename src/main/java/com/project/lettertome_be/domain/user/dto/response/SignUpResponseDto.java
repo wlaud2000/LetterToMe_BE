@@ -27,4 +27,5 @@ public record SignUpResponseDto(
                 .createdAt(user.getCreatedAt())
                 .build();
     }
+
 }

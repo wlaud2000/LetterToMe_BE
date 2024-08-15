@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface LocalUserRepository extends JpaRepository<LocalUser, Long> {
 
     Optional<LocalUser> findByUser(User user);
+
 }

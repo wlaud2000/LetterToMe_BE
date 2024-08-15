@@ -81,4 +81,5 @@ public class UserController {
         userService.deleteUser(email);
         return ResponseEntity.ok(Map.of("message", "회원 탈퇴가 완료되었습니다."));
     }
+
 }

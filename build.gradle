@@ -57,8 +57,9 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0'
 
-    // Redis
+    // Redis 캐시
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
 
     // Jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
