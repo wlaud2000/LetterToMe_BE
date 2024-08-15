@@ -1,13 +1,17 @@
 package com.project.lettertome_be.global.config;
 
 import com.project.lettertome_be.domain.user.jwt.filter.CustomLoginFilter;
+import com.project.lettertome_be.domain.user.jwt.filter.CustomLogoutHandler;
 import com.project.lettertome_be.domain.user.jwt.filter.JwtAuthorizationFilter;
+import com.project.lettertome_be.domain.user.jwt.service.TokenService;
 import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
 import com.project.lettertome_be.domain.user.repository.LocalUserRepository;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +31,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final LocalUserRepository localUserRepository;
+    private final TokenService tokenService;
 
     //인증이 필요하지 않은 url
     private final String[] allowedUrls = {
@@ -96,6 +101,20 @@ public class SecurityConfig {
         // JwtFilter를 CustomLoginFilter 앞에서 동작하도록 필터 체인에 추가
         http
                 .addFilterBefore(new JwtAuthorizationFilter(jwtUtil, userRepository, localUserRepository), CustomLoginFilter.class);
+
+        // Logout Filter 추가
+        http
+                .logout(logout -> logout
+                        .logoutUrl("/api/users/logout")
+                        .addLogoutHandler(new CustomLogoutHandler(tokenService, jwtUtil))
+                        //.logoutSuccessUrl("/api/users/login") // 로그아웃 성공 시 리다이렉트할 URL 설정
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpStatus.OK.value());
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write("{\"message\":\"로그아웃이 완료되었습니다.\"}");
+                        })
+                );
 
         return http.build();
     }
