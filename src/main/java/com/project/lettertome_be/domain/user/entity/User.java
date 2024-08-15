@@ -34,4 +34,5 @@ public class User extends BaseEntity {
     public void changeNickName(String newNickName) {
         this.nickName = newNickName;
     }
+
 }

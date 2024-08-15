@@ -2,6 +2,7 @@ package com.project.lettertome_be.domain.user.jwt.util;
 
 import com.project.lettertome_be.domain.user.jwt.dto.JwtDto;
 import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.global.common.util.RedisUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -19,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,16 +30,24 @@ public class JwtUtil {
     private final SecretKey secretKey; //JWT 서명에 사용되는 비밀 키
     private final Long accessExpMs; //액세스 토큰의 만료 시간
     private final Long refreshExpMs; //리프레시 토큰의 만료 시간
+    private final RedisUtil redisUtil;
 
     public JwtUtil(@Value("${spring.jwt.secret}") String secret,
                    @Value("${spring.jwt.token.access-expiration-time}") Long access,
-                   @Value("${spring.jwt.token.refresh-expiration-time}") Long refresh) {
+                   @Value("${spring.jwt.token.refresh-expiration-time}") Long refresh,
+                   RedisUtil redisUtil) {
 
         //주어진 시크릿 키 문자열을 바이트 배열로 변환하고, 이를 사용하여 SecretKey 객체 생성
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
                 Jwts.SIG.HS256.key().build().getAlgorithm());
         accessExpMs = access; // 액세스 토큰 만료 시간 설정
         refreshExpMs = refresh; // 리프레시 토큰 만료 시간 설정
+        this.redisUtil = redisUtil;
+    }
+
+    //Refresh 토큰의 만료 시간을 반환하는 메서드
+    public long getRefreshExp(String token) {
+        return refreshExpMs;
     }
 
     //JWT 토큰을 입력으로 받아 토큰의 subject 로부터 사용자 Email 추출하는 메서드
@@ -49,17 +59,6 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject(); //claims의 Subject에서 사용자의 email 추출 (Subject): 토큰의 주체 (일반적으로 사용자 ID나 이메일)
-    }
-
-    //JWT 토큰을 입력으로 받아 토큰의 claim 에서 사용자 권한을 추출하는 메서드
-    public String getRoles(String token) throws SignatureException {
-        log.info("[ JwtUtil ] 토큰에서 권한을 추출합니다.");
-        return Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .get("role", String.class); //페이로드에서 "role" 클레임을 추출하고 String 타입으로 반환
     }
 
     //토큰을 발급하는 메서드
@@ -97,9 +96,16 @@ public class JwtUtil {
     public String createJwtRefreshToken(CustomUserDetails customUserDetails) {
         Instant expiration = Instant.now().plusMillis(refreshExpMs);
         String refreshToken = tokenProvider(customUserDetails, expiration);
-        return refreshToken;
-        // 추후 Redis에 refresh 토큰 저장
 
+        //Refresh Token 저장
+        redisUtil.save(
+                customUserDetails.getUsername() + ":refresh",
+                refreshToken,
+                refreshExpMs,
+                TimeUnit.MILLISECONDS
+        );
+
+        return refreshToken;
     }
 
     // 제공된 리프레시 토큰을 기반으로 JwtDto 쌍을 다시 발급
@@ -163,4 +169,5 @@ public class JwtUtil {
             throw new ExpiredJwtException(null, null, "만료된 JWT 토큰입니다.");
         }
     }
+
 }

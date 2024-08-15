@@ -23,4 +23,5 @@ public record SignUpRequestDto(
         @NotBlank(message = "[ERROR] 닉네임은 필수 입력값입니다.")
         String nickName
 ) {
+
 }

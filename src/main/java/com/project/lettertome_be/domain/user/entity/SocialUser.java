@@ -27,4 +27,5 @@ public class SocialUser {
     @MapsId //식별관계 설정
     @JoinColumn(name = "user_id") //user의 id를 참조
     private User user;
+
 }

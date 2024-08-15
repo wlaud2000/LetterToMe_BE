@@ -22,14 +22,7 @@ public class UserQueryService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
 
-        return UserResponseDto.builder()
-                .userId(user.getId())
-                .email(user.getEmail())
-                .nickName(user.getNickName())
-                .writtenLetter(1)//letter 개발 전 임시 값
-                .receviedLetter(1)//letter 개발 전 임시 값
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
-                .build();
+        return UserResponseDto.from(user);
     }
+
 }
