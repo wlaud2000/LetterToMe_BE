@@ -28,7 +28,6 @@ public class CustomLogoutHandler implements LogoutHandler {
             String refreshToken = tokenService.getRefreshTokenByEmail(email);
 
             //조회 한 refreshToken을 blacklist에 추가
-            long expiryDuration = jwtUtil.getRefreshExp(refreshToken);
             tokenService.addToBlacklist(refreshToken);
 
             //이메일로 저장된 리프레시 토큰 삭제

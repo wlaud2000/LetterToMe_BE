@@ -45,11 +45,6 @@ public class JwtUtil {
         this.redisUtil = redisUtil;
     }
 
-    //Refresh 토큰의 만료 시간을 반환하는 메서드
-    public long getRefreshExp(String token) {
-        return refreshExpMs;
-    }
-
     //JWT 토큰을 입력으로 받아 토큰의 subject 로부터 사용자 Email 추출하는 메서드
     public String getEmail(String token) throws SignatureException {
         log.info("[ JwtUtil ] 토큰에서 이메일을 추출합니다.");
