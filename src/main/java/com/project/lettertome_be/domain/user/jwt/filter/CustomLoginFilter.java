@@ -67,8 +67,6 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
             @NonNull FilterChain chain,
             @NonNull Authentication authentication) throws IOException {
 
-        //인증이 성공하면 Spring Security 내부에서 인증된 UsernamePasswordAuthenticationToken 객체를 SecurityContextHolder에 저장
-        //UsernamePasswordAuthenticationFilter가 상속받고 있는 AbstractAuthenticationProcessingFilter의 successfulAuthentication 메서드에 나와있음.
         log.info("[ Login Filter ] 로그인에 성공 하였습니다.");
 
         CustomUserDetails customUserDetails = (CustomUserDetails)authentication.getPrincipal();

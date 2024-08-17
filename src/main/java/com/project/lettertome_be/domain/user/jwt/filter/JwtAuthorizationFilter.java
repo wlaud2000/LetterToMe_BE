@@ -95,7 +95,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 null,
                 userDetails.getAuthorities());
 
-        // SecurityContextHolder 에 현재 인증 객체 저장
+        // JWT 기반의 토큰 인증에서는 세션을 사용하지 않기 때문에, SecurityContextHolder 에 현재 인증 객체 저장
+        // 다음 요청이 들어올 때마다 새로운 JwtAuthorizationFilter가 작동하여 JWT 토큰을 검증하고,
+        // 그 때마다 SecurityContextHolder에 인증 정보를 설정하는 방식으로 동작
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         log.info("[ JwtAuthorizationFilter ] 인증 객체 저장 완료");
