@@ -48,7 +48,7 @@ public class UserService {
         String newPassword = changePasswordRequestDto.newPassword();
         user.changePassword(passwordEncoder.encode(newPassword));
         log.info("[User Service] 사용자의 비밀번호가 변경되었습니다.");
-
+        userRepository.save(user);
         //로그아웃 구현되면 로그아웃 실행
         /*log.info("[User Service] 로그아웃 되었습니다. 다시 로그인 해주세요.");*/
     }
@@ -58,7 +58,7 @@ public class UserService {
         String newEmail = changeEmailRequestDto.newEmail();
         user.changeEmail(newEmail);
         log.info("[User Service] 이메일이 변경되었습니다 -> {}", newEmail);
-
+        userRepository.save(user);
         //로그아웃 구현되면 로그아웃 실행
         /*log.info("[User Service] 로그아웃 되었습니다. 다시 로그인 해주세요.");*/
     }
