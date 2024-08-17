@@ -46,16 +46,15 @@ public class UserService {
     }
 
     //비밀번호 변경
-    public void changePassword(String email, ChangePasswordRequestDto changePasswordRequestDto) {
+    public void changePassword(User user, ChangePasswordRequestDto changePasswordRequestDto) {
 
         String newPassword = changePasswordRequestDto.newPassword();
 
-        //이메일로 유저 조회
-        User user = userRepository.findByEmail(email)
+        User dbUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
 
         //조회한 localUser 객체의 비밀번호 변경
-        user.changePassword(passwordEncoder.encode(newPassword));
+        dbUser.changePassword(passwordEncoder.encode(newPassword));
 
         log.info("[User Service] 사용자의 비밀번호가 변경되었습니다.");
 
@@ -64,15 +63,15 @@ public class UserService {
     }
 
     //유저 이메일 변경
-    public void changeEmail(String email, ChangeEmailRequestDto changeEmailRequestDto) {
+    public void changeEmail(User user, ChangeEmailRequestDto changeEmailRequestDto) {
 
         String newEmail = changeEmailRequestDto.newEmail();
         //기존 이메일로 user 조회
-        User user = userRepository.findByEmail(email)
+        User dbUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
 
         //조회한 user의 이메일 변경
-        user.changeEmail(newEmail); //조회한 user의 이메일 변경
+        dbUser.changeEmail(newEmail); //조회한 user의 이메일 변경
 
         log.info("[User Service] 이메일이 변경되었습니다 -> {}", newEmail);
 
@@ -82,27 +81,27 @@ public class UserService {
     }
 
     //유저 이름 변경
-    public void changeNickName(String email, ChangeNickNameRequestDto changeNickNameRequestDto) {
+    public void changeNickName(User user, ChangeNickNameRequestDto changeNickNameRequestDto) {
 
         String newNickName = changeNickNameRequestDto.newNickName();
         //이메일로 user 조회
-        User user = userRepository.findByEmail(email)
+        User dbUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
 
-        user.changeNickName(newNickName);
+        dbUser.changeNickName(newNickName);
 
         log.info("[User Service] 이름이 변경되었습니다 -> {}", newNickName);
     }
 
     //유저 삭제
-    public void deleteUser(String email) {
+    public void deleteUser(User user) {
 
         //이메일로 user 조회
-        User user = userRepository.findByEmail(email)
+        User dbUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
 
         //user 삭제
-        userRepository.delete(user);
+        userRepository.delete(dbUser);
 
         log.info("[User Service] 사용자가 성공적으로 삭제되었습니다.");
     }
