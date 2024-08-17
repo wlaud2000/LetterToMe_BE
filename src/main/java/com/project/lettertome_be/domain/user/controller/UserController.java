@@ -8,7 +8,6 @@ import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
 import com.project.lettertome_be.domain.user.dto.response.UserResponseDto;
 import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.jwt.annotation.AuthUser;
-import com.project.lettertome_be.domain.user.service.UserQueryService;
 import com.project.lettertome_be.domain.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final UserQueryService userQueryService;
 
     //회원가입
     @PostMapping("/signup")
@@ -37,7 +35,7 @@ public class UserController {
     //회원 정보 조회
     @GetMapping("")
     public ResponseEntity<UserResponseDto> getUser(@AuthUser User user) {
-        UserResponseDto userResponseDto = userQueryService.getUserByEmail(user);
+        UserResponseDto userResponseDto = UserResponseDto.from(user);
         return ResponseEntity.ok(userResponseDto);
     }
 

@@ -1,18 +1,17 @@
 package com.project.lettertome_be.domain.user.jwt.userdetails;
 
 import com.project.lettertome_be.domain.user.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class CustomUserDetails extends User implements UserDetails {
+@RequiredArgsConstructor
+public class CustomUserDetails implements UserDetails {
 
-    // User 객체를 받아 부모 클래스(User)의 생성자를 호출
-    public CustomUserDetails(User user) {
-        super(user.getEmail(), user.getPassword());
-    }
+    private final User user;
 
     // 권한을 반환하는 메서드, 현재는 빈 컬렉션을 반환 (권한이 필요하다면 여기에 추가 가능)
     @Override
@@ -23,13 +22,17 @@ public class CustomUserDetails extends User implements UserDetails {
     // 비밀번호 반환
     @Override
     public String getPassword() {
-        return super.getPassword(); // User 클래스의 getPassword 메서드 호출
+        return user.getPassword(); // User 클래스의 getPassword 메서드 호출
     }
 
     // 이메일을 사용자 이름으로 반환
     @Override
     public String getUsername() {
-        return super.getEmail(); // User 클래스의 getEmail 메서드 호출
+        return user.getEmail(); // User 클래스의 getEmail 메서드 호출
+    }
+
+    public User getUser() {
+        return this.user;
     }
 
     // 계정이 만료되지 않았음을 반환
