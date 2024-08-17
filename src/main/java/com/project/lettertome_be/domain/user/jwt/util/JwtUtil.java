@@ -1,7 +1,9 @@
 package com.project.lettertome_be.domain.user.jwt.util;
 
+import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.jwt.dto.JwtDto;
 import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.domain.user.repository.UserRepository;
 import com.project.lettertome_be.global.common.util.RedisUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -31,11 +34,13 @@ public class JwtUtil {
     private final Long accessExpMs; //액세스 토큰의 만료 시간
     private final Long refreshExpMs; //리프레시 토큰의 만료 시간
     private final RedisUtil redisUtil;
+    private final UserRepository userRepository;
 
     public JwtUtil(@Value("${spring.jwt.secret}") String secret,
                    @Value("${spring.jwt.token.access-expiration-time}") Long access,
                    @Value("${spring.jwt.token.refresh-expiration-time}") Long refresh,
-                   RedisUtil redisUtil) {
+                   RedisUtil redisUtil,
+                   UserRepository userRepository) {
 
         //주어진 시크릿 키 문자열을 바이트 배열로 변환하고, 이를 사용하여 SecretKey 객체 생성
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
@@ -43,6 +48,7 @@ public class JwtUtil {
         accessExpMs = access; // 액세스 토큰 만료 시간 설정
         refreshExpMs = refresh; // 리프레시 토큰 만료 시간 설정
         this.redisUtil = redisUtil;
+        this.userRepository = userRepository;
     }
 
     //JWT 토큰을 입력으로 받아 토큰의 subject 로부터 사용자 Email 추출하는 메서드
@@ -107,14 +113,13 @@ public class JwtUtil {
     public JwtDto reissueToken(String refreshToken) throws SignatureException {
         String email = getEmail(refreshToken);
 
-        // refreshToken 에서 user 정보를 가져와서 새로운 토큰을 발급 (발급 시간, 유효 시간(reset)만 새로 적용)
-        CustomUserDetails userDetails = new CustomUserDetails(
-                email,
-                null
-        );
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + email));
+
+        // CustomUserDetails 생성 시 User 객체 사용
+        CustomUserDetails userDetails = new CustomUserDetails(user);
         log.info("[ JwtUtil ] 새로운 토큰을 재발급 합니다.");
 
-        // 재발급
         return new JwtDto(
                 createJwtAccessToken(userDetails),
                 createJwtRefreshToken(userDetails)

@@ -75,10 +75,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + email));
 
         // CustomUserDetail 객체 생성
-        CustomUserDetails userDetails = new CustomUserDetails(
-                user.getEmail(),
-                user.getPassword()
-        );
+        CustomUserDetails userDetails = new CustomUserDetails(user);
 
         log.info("[ JwtAuthorizationFilter ] UserDetails 객체 생성 성공");
 

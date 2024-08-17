@@ -49,4 +49,11 @@ public class User extends BaseEntity {
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
+
+    //CustomUserDetails 전용
+    protected User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
 }

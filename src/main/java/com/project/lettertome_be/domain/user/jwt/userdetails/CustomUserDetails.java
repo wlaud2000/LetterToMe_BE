@@ -1,54 +1,58 @@
 package com.project.lettertome_be.domain.user.jwt.userdetails;
 
+import com.project.lettertome_be.domain.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails extends User implements UserDetails {
 
-    private final String email;
-    private final String password;
-
-    public CustomUserDetails(String email, String password) {
-        this.email = email;
-        this.password = password;
+    // User 객체를 받아 부모 클래스(User)의 생성자를 호출
+    public CustomUserDetails(User user) {
+        super(user.getEmail(), user.getPassword());
     }
 
+    // 권한을 반환하는 메서드, 현재는 빈 컬렉션을 반환 (권한이 필요하다면 여기에 추가 가능)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); //빈 collection을 반환
+        return Collections.emptyList(); // 빈 collection 반환
     }
 
+    // 비밀번호 반환
     @Override
     public String getPassword() {
-        return password;
+        return super.getPassword(); // User 클래스의 getPassword 메서드 호출
     }
 
+    // 이메일을 사용자 이름으로 반환
     @Override
-    public String getUsername() { //이메일을 사용자 이름으로 사용하는 경우, getUsername 메서드에서 이메일을 반환하도록 해야함.
-        return email;
+    public String getUsername() {
+        return super.getEmail(); // User 클래스의 getEmail 메서드 호출
     }
 
+    // 계정이 만료되지 않았음을 반환
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    // 계정이 잠기지 않았음을 반환
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    // 자격 증명이 만료되지 않았음을 반환
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    // 계정이 활성화되어 있음을 반환
     @Override
     public boolean isEnabled() {
         return true;
     }
-
 }
