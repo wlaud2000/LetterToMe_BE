@@ -5,9 +5,7 @@ import com.project.lettertome_be.domain.user.dto.request.ChangeNickNameRequestDt
 import com.project.lettertome_be.domain.user.dto.request.ChangePasswordRequestDto;
 import com.project.lettertome_be.domain.user.dto.request.SignUpRequestDto;
 import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
-import com.project.lettertome_be.domain.user.entity.LocalUser;
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.repository.LocalUserRepository;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +22,6 @@ import java.util.NoSuchElementException;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final LocalUserRepository localUserRepository;
     private final PasswordEncoder passwordEncoder; //비밀번호 암호화
 
     // 회원가입
@@ -39,17 +36,10 @@ public class UserService {
         User user = User.builder()
                 .email(signUpRequestDto.email())
                 .nickName(signUpRequestDto.nickName())
-                .build();
-
-        User savedUser = userRepository.save(user);
-
-        // LocalUser 엔티티 생성 및 저장
-        LocalUser localUser = LocalUser.builder()
-                .user(savedUser)
                 .password(passwordEncoder.encode(signUpRequestDto.password()))
                 .build();
 
-        localUserRepository.save(localUser);
+        User savedUser = userRepository.save(user);
 
         // 저장된 User 엔티티를 DTO로 변환하여 반환
         return SignUpResponseDto.from(savedUser);
@@ -64,12 +54,8 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
 
-        //조회한 user 객체로 LocalUser 조회
-        LocalUser localUser = localUserRepository.findByUser(user)
-                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
-
         //조회한 localUser 객체의 비밀번호 변경
-        localUser.changePassword(passwordEncoder.encode(newPassword));
+        user.changePassword(passwordEncoder.encode(newPassword));
 
         log.info("[User Service] 사용자의 비밀번호가 변경되었습니다.");
 
@@ -115,12 +101,7 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()-> new NoSuchElementException("사용자가 존재하지 않습니다."));
 
-        //user로 localUser 조회
-        LocalUser localUser = localUserRepository.findByUser(user)
-                        .orElseThrow(()-> new NoSuchElementException("LocalUser가 존재하지 않습니다."));
-
         //user 삭제
-        localUserRepository.delete(localUser);
         userRepository.delete(user);
 
         log.info("[User Service] 사용자가 성공적으로 삭제되었습니다.");
