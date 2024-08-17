@@ -1,11 +1,9 @@
 package com.project.lettertome_be.domain.user.jwt.filter;
 
-import com.project.lettertome_be.domain.user.entity.LocalUser;
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.repository.LocalUserRepository;
-import com.project.lettertome_be.domain.user.repository.UserRepository;
-import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
 import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
+import com.project.lettertome_be.domain.user.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -30,7 +28,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-    private final LocalUserRepository localUserRepository;
 
     //JWT 토큰을 사용하여 요청을 인증하는 역할
     @Override
@@ -77,15 +74,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + email));
 
-        // LocalUser 엔티티에서 비밀번호 조회
-        LocalUser localUser = localUserRepository.findByUser(user)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일의 로컬 사용자 정보를 찾을 수 없습니다: " + email));
-
         // CustomUserDetail 객체 생성
-        CustomUserDetails userDetails = new CustomUserDetails(
-                user.getEmail(),
-                localUser.getPassword()
-        );
+        CustomUserDetails userDetails = new CustomUserDetails(user);
 
         log.info("[ JwtAuthorizationFilter ] UserDetails 객체 생성 성공");
 

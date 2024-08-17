@@ -1,5 +1,6 @@
 package com.project.lettertome_be.domain.user.entity;
 
+import com.project.lettertome_be.domain.user.entity.enums.Provider;
 import com.project.lettertome_be.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,14 +19,24 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String email;
 
     @Column(name = "nickname", nullable = false)
     private String nickName;
 
+    @Column
+    private String password;
+
     /*@Column(name = "profile_img")
     private String profileImg;*/
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Provider provider;
+
+    @Column(name = "provider_key")
+    private String providerKey;
 
     public void changeEmail(String newEmail) {
         this.email = newEmail;
@@ -33,6 +44,16 @@ public class User extends BaseEntity {
 
     public void changeNickName(String newNickName) {
         this.nickName = newNickName;
+    }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    //CustomUserDetails 전용
+    protected User(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
 }

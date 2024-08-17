@@ -5,7 +5,6 @@ import com.project.lettertome_be.domain.user.jwt.filter.CustomLogoutHandler;
 import com.project.lettertome_be.domain.user.jwt.filter.JwtAuthorizationFilter;
 import com.project.lettertome_be.domain.user.jwt.service.TokenService;
 import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
-import com.project.lettertome_be.domain.user.repository.LocalUserRepository;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +29,6 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-    private final LocalUserRepository localUserRepository;
     private final TokenService tokenService;
 
     //인증이 필요하지 않은 url
@@ -100,7 +98,7 @@ public class SecurityConfig {
 
         // JwtFilter를 CustomLoginFilter 앞에서 동작하도록 필터 체인에 추가
         http
-                .addFilterBefore(new JwtAuthorizationFilter(jwtUtil, userRepository, localUserRepository), CustomLoginFilter.class);
+                .addFilterBefore(new JwtAuthorizationFilter(jwtUtil, userRepository), CustomLoginFilter.class);
 
         // Logout Filter 추가
         http
