@@ -1,8 +1,8 @@
 package com.project.lettertome_be.domain.user.jwt.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore; //어노테이션 주의...
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.minidev.json.annotate.JsonIgnore;
 
 /*인증용 객체랑 인가 전달용 객체를 확실히 분리하기 위해 AuthUser를 사용*/
 @Getter

@@ -10,11 +10,6 @@ import java.util.Collections;
 
 public class CustomUserDetails extends AuthUser implements UserDetails {
 
-    //인가용 객체 생성자
-    public CustomUserDetails(Long id, String email, String password) {
-        super(id, email, password);
-    }
-
     //인증용 객체 생성자
     public CustomUserDetails(User user) {
         super(user.getId(), user.getEmail(), user.getPassword());
