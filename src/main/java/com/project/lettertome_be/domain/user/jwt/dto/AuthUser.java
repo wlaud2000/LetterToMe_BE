@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class AuthUser {
 
-    private final Long id;
+    private final Long userId;
 
     private final String email;
 
