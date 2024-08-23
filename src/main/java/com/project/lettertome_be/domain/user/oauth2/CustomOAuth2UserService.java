@@ -1,8 +1,12 @@
 package com.project.lettertome_be.domain.user.oauth2;
 
+import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.entity.enums.Provider;
+import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -11,13 +15,16 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -34,19 +41,35 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // OAuth2 서비스에서 가져온 유저 정보들
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
+        // attributes 맵을 수정 가능한 맵으로 복사
+        Map<String, Object> modifiableAttributes = new HashMap<>(attributes);
+
         // registrationId에 따라 유저 정보를 OauthProfile 객체로 변환
-        OAuthProfile oauthProfile = OAuthAttributes.extract(registrationId, attributes);
+        OAuthProfile oauthProfile = OAuthAttributes.extract(registrationId, modifiableAttributes);
 
         // 변환된 OauthProfile 정보를 기반으로 사용자 정보 저장 또는 업데이트
-        saveOrUpdateOauthProfile(oauthProfile, Provider.valueOf(registrationId.toUpperCase()));
+        User user = saveOrUpdateOauthProfile(oauthProfile, Provider.valueOf(registrationId.toUpperCase()));
+
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+
+        String accessToken = jwtUtil.createJwtAccessToken(userDetails);
+        String refreshToken = jwtUtil.createJwtRefreshToken(userDetails);
+
+        // 로그로 토큰 출력
+        log.info("Access Token: {}", accessToken);
+        log.info("Refresh Token: {}", refreshToken);
+
+        // 수정 가능한 맵에 토큰 추가
+        modifiableAttributes.put("accessToken", accessToken);
+        modifiableAttributes.put("refreshToken", refreshToken);
 
         // DefaultOAuth2User 객체 생성 후 반환
-        return createDefaultOAuth2User(attributes, userNameAttributeName);
+        return createDefaultOAuth2User(modifiableAttributes, userNameAttributeName);
     }
 
-    private void saveOrUpdateOauthProfile(OAuthProfile oauthProfile, Provider provider) {
+    private User saveOrUpdateOauthProfile(OAuthProfile oauthProfile, Provider provider) {
         // oauthId로 사용자 정보를 조회, 존재하면 닉네임 업데이트, 없으면 새로 저장
-        userRepository.findByOauthId(oauthProfile.getOauthId())
+        return userRepository.findByOauthId(oauthProfile.getOauthId())
                 .map(existingUser -> existingUser.updateNickname(oauthProfile.getNickname()))  // 기존 사용자 정보가 있을 때 닉네임 업데이트
                 .orElseGet(() -> userRepository.save(oauthProfile.toUser(provider)));  // 없으면 새 사용자 저장
     }

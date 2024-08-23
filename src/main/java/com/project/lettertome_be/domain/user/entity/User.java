@@ -1,7 +1,6 @@
 package com.project.lettertome_be.domain.user.entity;
 
 import com.project.lettertome_be.domain.user.entity.enums.Provider;
-import com.project.lettertome_be.domain.user.oauth2.OAuthProfile;
 import com.project.lettertome_be.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -56,21 +55,5 @@ public class User extends BaseEntity {
         this.nickname = newNickname;
         return this;  // 메서드 체이닝을 위해 this 반환
     }
-
-    // OauthProfile을 기반으로 User 엔티티를 생성하는 메서드
-    public static User fromOauthProfile(OAuthProfile oauthProfile, Provider provider) {
-        return User.builder()
-                .oauthId(oauthProfile.getOauthId())  // OAuth에서 받은 고유 ID를 설정
-                .nickname(oauthProfile.getNickname())  // OAuth에서 받은 닉네임을 설정
-                .provider(provider)  // OAuth 제공자 정보를 설정
-                .build();
-    }
-
-
-    /*//CustomUserDetails 전용
-    protected User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }*/
 
 }
