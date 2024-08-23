@@ -23,7 +23,7 @@ public record SignUpResponseDto(
         return SignUpResponseDto.builder()
                 .userId(user.getId())
                 .email(user.getEmail())
-                .nickName(user.getNickName())
+                .nickName(user.getNickname())
                 .createdAt(user.getCreatedAt())
                 .build();
     }

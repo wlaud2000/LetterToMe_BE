@@ -11,4 +11,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByEmail(String email);
 
+    Optional<User> findByOauthId(String oauthId);  // OauthId로 유저를 찾는 메소드
 }

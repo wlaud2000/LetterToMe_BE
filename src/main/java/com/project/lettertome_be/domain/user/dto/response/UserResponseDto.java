@@ -29,7 +29,7 @@ public record UserResponseDto (
         return UserResponseDto.builder()
                 .userId(user.getId())
                 .email(user.getEmail())
-                .nickName(user.getNickName())
+                .nickName(user.getNickname())
                 .writtenLetter(1)
                 .receviedLetter(1)
                 .createdAt(user.getCreatedAt())

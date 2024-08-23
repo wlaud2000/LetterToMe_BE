@@ -36,7 +36,7 @@ public class UserService {
         // User 엔티티 생성 및 저장
         User user = User.builder()
                 .email(signUpRequestDto.email())
-                .nickName(signUpRequestDto.nickName())
+                .nickname(signUpRequestDto.nickName())
                 .password(passwordEncoder.encode(signUpRequestDto.password()))
                 .build();
 

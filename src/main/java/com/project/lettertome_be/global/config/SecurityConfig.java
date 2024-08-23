@@ -5,6 +5,7 @@ import com.project.lettertome_be.domain.user.jwt.filter.CustomLogoutHandler;
 import com.project.lettertome_be.domain.user.jwt.filter.JwtAuthorizationFilter;
 import com.project.lettertome_be.domain.user.jwt.service.TokenService;
 import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
+import com.project.lettertome_be.domain.user.oauth2.CustomOAuth2UserService;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final TokenService tokenService;
+    private final CustomOAuth2UserService customOAuth2UserService; // CustomOAuth2UserService 주입
 
     //인증이 필요하지 않은 url
     private final String[] allowedUrls = {
@@ -84,6 +86,14 @@ public class SecurityConfig {
                         //위에서 정의했던 allowedUrls 들은 인증이 필요하지 않음 -> permitAll
                         .requestMatchers(allowedUrls).permitAll()
                         .anyRequest().authenticated() // 그 외의 url 들은 인증이 필요함
+                );
+
+        // OAuth2 로그인 설정
+        http
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService) // OAuth2UserService 연결
+                        )
                 );
 
         // CustomLoginFilter 인스턴스를 생성하고 필요한 의존성을 주입
