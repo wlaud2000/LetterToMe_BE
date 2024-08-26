@@ -30,6 +30,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // OAuth 서비스(구글, 네이버, 카카오 등)에서 가져온 유저 정보를 담고 있음
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        log.info("소셜 로그인 페이지에서 넘어온 정보 -> {}",oAuth2User);
 
         // OAuth 서비스 이름(ex: google, naver, kakao)
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
@@ -64,6 +65,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         modifiableAttributes.put("refreshToken", refreshToken);
 
         // DefaultOAuth2User 객체 생성 후 반환
+        log.info("[ CustomOAuth2UserService ] DefaultOAuth2User : {}", createDefaultOAuth2User(modifiableAttributes, userNameAttributeName));
         return createDefaultOAuth2User(modifiableAttributes, userNameAttributeName);
     }
 
