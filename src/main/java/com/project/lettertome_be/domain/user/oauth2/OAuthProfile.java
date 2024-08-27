@@ -4,9 +4,11 @@ import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.entity.enums.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
+@ToString
 public class OAuthProfile {  // OAuthProfile 클래스 선언, OAuth 관련 사용자 프로필 정보를 담기 위해 사용
 
     private String oauthId; // OAuth 제공자가 부여한 고유 ID

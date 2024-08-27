@@ -30,6 +30,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // OAuth 서비스(구글, 네이버, 카카오 등)에서 가져온 유저 정보를 담고 있음
         OAuth2User oAuth2User = super.loadUser(userRequest);
+
+        /*Name: [{id=asdfqwer, name=김지명}], Granted Authorities: [[OAUTH2_USER]],
+        User Attributes: [{resultcode=00, message=success, response={id=asdfqwer, name=김지명}}]*/
         log.info("소셜 로그인 페이지에서 넘어온 정보 -> {}",oAuth2User);
 
         // OAuth 서비스 이름(ex: google, naver, kakao)
@@ -41,12 +44,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // OAuth2 서비스에서 가져온 유저 정보들
         Map<String, Object> attributes = oAuth2User.getAttributes();
+        log.info("Attributes -> {}", attributes);
 
         // attributes 맵을 수정 가능한 맵으로 복사
         Map<String, Object> modifiableAttributes = new HashMap<>(attributes);
 
         // registrationId에 따라 유저 정보를 OauthProfile 객체로 변환
-        OAuthProfile oauthProfile = OAuthAttributes.extract(registrationId, modifiableAttributes);
+        OAuthProfile oauthProfile = OAuthAttributes.getProfileByRegistrationId(registrationId, modifiableAttributes);
+        log.info("oauthProfile -> {}", oauthProfile);
 
         // 변환된 OauthProfile 정보를 기반으로 사용자 정보 저장 또는 업데이트
         User user = saveOrUpdateOauthProfile(oauthProfile, Provider.valueOf(registrationId.toUpperCase()));
@@ -65,6 +70,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         modifiableAttributes.put("refreshToken", refreshToken);
 
         // DefaultOAuth2User 객체 생성 후 반환
+        /*Name: [{id=asdfqwer, name=김지명}], Granted Authorities: [[]],
+        User Attributes: [{resultcode=00, message=success, accessToken=토큰, refreshToken=토큰, response={id=asdfqwer, name=김지명}}]*/
         log.info("[ CustomOAuth2UserService ] DefaultOAuth2User : {}", createDefaultOAuth2User(modifiableAttributes, userNameAttributeName));
         return createDefaultOAuth2User(modifiableAttributes, userNameAttributeName);
     }

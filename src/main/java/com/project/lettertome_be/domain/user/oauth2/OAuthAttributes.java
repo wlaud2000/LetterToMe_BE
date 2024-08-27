@@ -9,6 +9,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 public enum OAuthAttributes {
 
+    /*NAVER("naver", new Function<Map<String, Object>, OAuthProfile>() {
+        @Override
+        public OAuthProfile apply(Map<String, Object> attributes) {
+            Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+            String oauthId = (String) response.get("id");
+            String nickname = (String) response.get("name");
+            return new OAuthProfile(oauthId, nickname);
+        }
+    }),*/ //아래 코드와 동일 -> 람다식 사용 안한 코드
+
     NAVER("naver", attributes -> {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
         String oauthId = (String) response.get("id");
@@ -27,7 +37,7 @@ public enum OAuthAttributes {
     private final String registrationId;
     private final Function<Map<String, Object>, OAuthProfile> oauthProfileFactory;
 
-    public static OAuthProfile extract(String registrationId, Map<String, Object> attributes) {
+    public static OAuthProfile getProfileByRegistrationId(String registrationId, Map<String, Object> attributes) {
         return Arrays.stream(values())
                 .filter(provider -> registrationId.equals(provider.registrationId))
                 .findFirst()
