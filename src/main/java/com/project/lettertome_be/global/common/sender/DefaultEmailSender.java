@@ -54,7 +54,7 @@ public class DefaultEmailSender {
 
             helper.setSubject(subject); // 이메일 제목을 설정
             helper.setTo(email); // 수신자를 설정
-            helper.setFrom(new InternetAddress(serviceEmail, "Another Art")); // 발신자를 설정
+            helper.setFrom(new InternetAddress(serviceEmail, "Letter To Me")); // 발신자를 설정
             helper.setText(mailBody, true); // 이메일 본문을 설정
 
             mailSender.send(message); // 이메일을 전송
