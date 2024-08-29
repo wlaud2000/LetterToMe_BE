@@ -109,6 +109,26 @@ public class JwtUtil {
         return refreshToken;
     }
 
+    // 임시 AccessToken을 생성하는 메서드
+    public String createTemporaryToken(String email, long expirationTimeInMillis) {
+        log.info("[ JwtUtil ] 임시 AccessToken을 생성합니다.");
+
+        Instant issuedAt = Instant.now();
+        Instant expirationTime = Instant.now().plusMillis(expirationTimeInMillis);
+
+        // 임시 AccessToken 생성
+        return Jwts.builder()
+                .header()
+                .add("typ", "JWT")
+                .and()
+                .subject(email) // Subject에 사용자 이메일 추가
+                .claim("scope", "password-reset") // 특정 작업(scope)을 위한 클레임 추가
+                .issuedAt(Date.from(issuedAt)) // 발행 시간
+                .expiration(Date.from(expirationTime)) // 만료 시간
+                .signWith(secretKey) // 서명 정보 추가
+                .compact(); // 토큰 생성
+    }
+
     // 제공된 리프레시 토큰을 기반으로 JwtDto 쌍을 다시 발급
     public JwtDto reissueToken(String refreshToken) throws SignatureException {
         String email = getEmail(refreshToken);
