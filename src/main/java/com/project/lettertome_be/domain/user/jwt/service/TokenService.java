@@ -31,4 +31,9 @@ public class TokenService {
         redisUtil.delete(email + ":refresh");
     }
 
+    // 주어진 토큰이 블랙리스트에 있는지 확인
+    public boolean isTokenBlacklisted(String token) {
+        String key = BLACKLIST_PREFIX + token; // 블랙리스트 키 생성
+        return redisUtil.hasKey(key); // 블랙리스트에 토큰이 있는지 확인(Boolean.TRUE.equals 를 사용하여 null포인터 예외 방지)
+    }
 }

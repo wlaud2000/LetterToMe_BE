@@ -1,7 +1,6 @@
 package com.project.lettertome_be.domain.user.jwt.util;
 
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.jwt.dto.JwtDto;
 import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import com.project.lettertome_be.global.common.util.RedisUtil;
@@ -129,8 +128,8 @@ public class JwtUtil {
                 .compact(); // 토큰 생성
     }
 
-    // 제공된 리프레시 토큰을 기반으로 JwtDto 쌍을 다시 발급
-    public JwtDto reissueToken(String refreshToken) throws SignatureException {
+    //주어진 리프레시 토큰을 기반으로 새로운 액세스 토큰을 발급
+    public String reissueAccessToken(String refreshToken) throws SignatureException {
         String email = getEmail(refreshToken);
 
         User user = userRepository.findByEmail(email)
@@ -138,12 +137,10 @@ public class JwtUtil {
 
         // CustomUserDetails 생성 시 User 객체 사용
         CustomUserDetails userDetails = new CustomUserDetails(user);
-        log.info("[ JwtUtil ] 새로운 토큰을 재발급 합니다.");
+        log.info("[ JwtUtil ] 새로운 액세스 토큰을 재발급 합니다.");
 
-        return new JwtDto(
-                createJwtAccessToken(userDetails),
-                createJwtRefreshToken(userDetails)
-        );
+        // 새로운 액세스 토큰만 발급하여 반환
+        return createJwtAccessToken(userDetails);
     }
 
     // HTTP 요청의 'Authorization' 헤더에서 JWT 액세스 토큰을 검색
