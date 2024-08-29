@@ -3,6 +3,7 @@ package com.project.lettertome_be.global.jwt.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.lettertome_be.domain.user.dto.request.LoginRequestDto;
 import com.project.lettertome_be.global.common.response.ApiResponse;
+import com.project.lettertome_be.global.common.util.HttpResponseUtil;
 import com.project.lettertome_be.global.jwt.dto.JwtDto;
 import com.project.lettertome_be.global.jwt.exception.SecurityErrorCode;
 import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
@@ -13,8 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -34,7 +33,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(@NonNull HttpServletRequest request,
                                                 @NonNull HttpServletResponse response) throws AuthenticationException {
 
-        log.info("[ Login Filter ] 로그인 시도: Custom Login Filter 작동 ");
+        log.info("[ Login Filter ]  로그인 시도: Custom Login Filter 작동 ");
         ObjectMapper objectMapper = new ObjectMapper();
         LoginRequestDto requestBody;
 
@@ -53,7 +52,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         log.info("[ Login Filter ] Email ---> {} ", email);
         log.info("[ Login Filter ] Password ---> {} ", password);
 
-        // UsernamePasswordAuthenticationToken 생성 (인증용 객체)
+        // UserNamePasswordToken 생성 (인증용 객체)
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(email, password, null);
 
@@ -80,13 +79,8 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .refreshToken(jwtUtil.createJwtRefreshToken(customUserDetails))
                 .build();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        response.setStatus(HttpStatus.OK.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
-
-        // JSON 형식의 응답 본문 작성
-        response.getWriter().write(objectMapper.writeValueAsString(jwtDto));
+        // 성공 응답 처리
+        HttpResponseUtil.setSuccessResponse(response, jwtDto);
     }
 
     @Override
@@ -100,42 +94,22 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         log.error("[ Login Filter ] 인증 실패: {}", errorCode.getMessage());
 
-        // 예외 발생 시 처리
-        handleError(response, errorCode);
-    }
-
-    private void handleError(HttpServletResponse response, SecurityErrorCode errorCode) {
-        try {
-            response.setStatus(errorCode.getHttpStatus().value());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setCharacterEncoding("UTF-8");
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            response.getWriter().write(objectMapper.writeValueAsString(
-                    ApiResponse.onFailure(errorCode.getCode(), errorCode.getMessage())
-            ));
-        } catch (IOException e) {
-            log.error("[ Login Filter ] 응답 작성 중 IOException 발생: {}", e.getMessage());
-        }
+        // 실패 응답 처리
+        HttpResponseUtil.setErrorResponse(response, errorCode.getHttpStatus(),
+                ApiResponse.onFailure(errorCode.getCode(), errorCode.getMessage()));
     }
 
     private SecurityErrorCode getErrorCode(AuthenticationException failed) {
         if (failed instanceof BadCredentialsException) {
-            log.error("[ Login Filter ] BadCredentialsException 발생: 잘못된 인증 정보입니다.");
             return SecurityErrorCode.BAD_CREDENTIALS;
         } else if (failed instanceof LockedException || failed instanceof DisabledException) {
-            log.error("[ Login Filter ] 계정이 잠기거나 비활성화된 상태입니다.");
             return SecurityErrorCode.FORBIDDEN;
         } else if (failed instanceof UsernameNotFoundException) {
-            log.error("[ Login Filter ] UsernameNotFoundException 발생: 계정을 찾을 수 없습니다.");
             return SecurityErrorCode.USER_NOT_FOUND;
         } else if (failed instanceof AuthenticationServiceException) {
-            log.error("[ Login Filter ] AuthenticationServiceException 발생: 서버 내부 오류.");
             return SecurityErrorCode.INTERNAL_SECURITY_ERROR;
         } else {
-            log.error("[ Login Filter ] 예상치 못한 예외 발생: {}", failed.getClass().getSimpleName());
             return SecurityErrorCode.UNAUTHORIZED;
         }
     }
-
 }

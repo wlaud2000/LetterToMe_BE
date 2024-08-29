@@ -1,9 +1,9 @@
 package com.project.lettertome_be.global.jwt.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import com.project.lettertome_be.global.common.response.ApiResponse;
+import com.project.lettertome_be.global.common.util.HttpResponseUtil;
 import com.project.lettertome_be.global.jwt.exception.SecurityErrorCode;
 import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
 import com.project.lettertome_be.global.jwt.util.JwtUtil;
@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,16 +66,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
     }
 
+    // 예외 발생 시 HttpResponseUtil 을 사용하여 에러 응답을 처리하는 메서드
     private void handleException(HttpServletResponse response, SecurityErrorCode errorCode) throws IOException {
-        // HTTP 응답 설정
-        response.setStatus(errorCode.getHttpStatus().value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
-
-        // 응답 본문을 JSON 형식으로 작성
-        ApiResponse<Void> errorResponse = errorCode.getErrorResponse();
-        ObjectMapper objectMapper = new ObjectMapper();
-        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+        // HttpResponseUtil을 사용하여 에러 응답을 처리
+        HttpResponseUtil.setErrorResponse(response, errorCode.getHttpStatus(),
+                ApiResponse.onFailure(errorCode.getCode(), errorCode.getMessage()));
     }
 
     //Access 토큰의 유효성을 검사하는 메서드
