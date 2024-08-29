@@ -30,7 +30,7 @@ public class EmailAuthService {
 
         String authCode = createCode(); // 인증 코드 생성
         emailSender.sendAuthCodeForSignUp(email, authCode); // 이메일로 인증 코드 전송
-        redisUtil.save(email, authCode, authCodeExpirationMillis, TimeUnit.MILLISECONDS); // Redis에 인증 코드 저장
+        redisUtil.save(email + ":code", authCode, authCodeExpirationMillis, TimeUnit.MILLISECONDS); // Redis에 인증 코드 저장
     }
 
     // 이메일 인증 코드를 검증하는 메서드
@@ -52,7 +52,7 @@ public class EmailAuthService {
 
         String authCode = createCode(); // 인증 코드 생성
         emailSender.sendAuthCodeForPasswordReset(email, authCode); // 비밀번호 재설정을 위한 인증 코드 전송
-        redisUtil.save(email, authCode, authCodeExpirationMillis, TimeUnit.MILLISECONDS); // Redis에 인증 코드 저장
+        redisUtil.save(email + ":code", authCode, authCodeExpirationMillis, TimeUnit.MILLISECONDS); // Redis에 인증 코드 저장
     }
 
     // 인증 코드 생성 메서드
