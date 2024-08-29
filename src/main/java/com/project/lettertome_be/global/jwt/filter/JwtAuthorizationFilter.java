@@ -1,9 +1,12 @@
-package com.project.lettertome_be.domain.user.jwt.filter;
+package com.project.lettertome_be.global.jwt.filter;
 
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
-import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
+import com.project.lettertome_be.global.common.response.ApiResponse;
+import com.project.lettertome_be.global.common.util.HttpResponseUtil;
+import com.project.lettertome_be.global.jwt.exception.SecurityErrorCode;
+import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -53,12 +56,21 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             log.warn("[ JwtAuthorizationFilter ] accessToken 이 만료되었습니다.");
-            throw e; // CustomAuthenticationEntryPoint에서 예외 처리
+            handleException(response, SecurityErrorCode.TOKEN_EXPIRED);
         } catch (SecurityException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-            // 추가된 부분: 잘못된 토큰 예외 처리
             log.warn("[ JwtAuthorizationFilter ] 잘못된 토큰입니다.");
-            throw e; // CustomAuthenticationEntryPoint에서 예외 처리
+            handleException(response, SecurityErrorCode.INVALID_TOKEN);
+        } catch (UsernameNotFoundException e) {
+            log.warn("[ JwtAuthorizationFilter ] 사용자 정보를 찾을 수 없습니다.");
+            handleException(response, SecurityErrorCode.USER_NOT_FOUND);
         }
+    }
+
+    // 예외 발생 시 HttpResponseUtil 을 사용하여 에러 응답을 처리하는 메서드
+    private void handleException(HttpServletResponse response, SecurityErrorCode errorCode) throws IOException {
+        // HttpResponseUtil을 사용하여 에러 응답을 처리
+        HttpResponseUtil.setErrorResponse(response, errorCode.getHttpStatus(),
+                ApiResponse.onFailure(errorCode.getCode(), errorCode.getMessage()));
     }
 
     //Access 토큰의 유효성을 검사하는 메서드

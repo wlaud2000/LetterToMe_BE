@@ -6,8 +6,8 @@ import com.project.lettertome_be.domain.user.dto.request.ChangePasswordRequestDt
 import com.project.lettertome_be.domain.user.dto.request.SignUpRequestDto;
 import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
 import com.project.lettertome_be.domain.user.dto.response.UserResponseDto;
-import com.project.lettertome_be.domain.user.jwt.annotation.CurrentUser;
-import com.project.lettertome_be.domain.user.jwt.dto.AuthUser;
+import com.project.lettertome_be.global.jwt.annotation.CurrentUser;
+import com.project.lettertome_be.global.jwt.dto.AuthUser;
 import com.project.lettertome_be.domain.user.service.UserQueryService;
 import com.project.lettertome_be.domain.user.service.UserService;
 import jakarta.validation.Valid;

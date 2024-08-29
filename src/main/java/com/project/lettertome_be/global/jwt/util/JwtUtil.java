@@ -1,7 +1,7 @@
-package com.project.lettertome_be.domain.user.jwt.util;
+package com.project.lettertome_be.global.jwt.util;
 
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import com.project.lettertome_be.global.common.util.RedisUtil;
 import io.jsonwebtoken.ExpiredJwtException;

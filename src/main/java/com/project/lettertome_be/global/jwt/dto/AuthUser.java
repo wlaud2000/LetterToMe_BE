@@ -1,4 +1,4 @@
-package com.project.lettertome_be.domain.user.jwt.dto;
+package com.project.lettertome_be.global.jwt.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore; //어노테이션 주의...
 import lombok.AllArgsConstructor;

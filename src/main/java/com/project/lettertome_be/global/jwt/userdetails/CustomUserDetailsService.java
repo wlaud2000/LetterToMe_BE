@@ -1,4 +1,4 @@
-package com.project.lettertome_be.domain.user.jwt.userdetails;
+package com.project.lettertome_be.global.jwt.userdetails;
 
 import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.repository.UserRepository;

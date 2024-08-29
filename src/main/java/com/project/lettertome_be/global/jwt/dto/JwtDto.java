@@ -1,4 +1,4 @@
-package com.project.lettertome_be.domain.user.jwt.dto;
+package com.project.lettertome_be.global.jwt.dto;
 
 import lombok.Builder;
 
