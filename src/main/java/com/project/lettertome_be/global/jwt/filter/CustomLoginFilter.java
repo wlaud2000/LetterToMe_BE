@@ -1,10 +1,10 @@
-package com.project.lettertome_be.domain.user.jwt.filter;
+package com.project.lettertome_be.global.jwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.lettertome_be.domain.user.dto.request.LoginRequestDto;
-import com.project.lettertome_be.domain.user.jwt.dto.JwtDto;
-import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
-import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
+import com.project.lettertome_be.global.jwt.dto.JwtDto;
+import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

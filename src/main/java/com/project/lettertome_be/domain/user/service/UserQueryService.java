@@ -2,7 +2,7 @@ package com.project.lettertome_be.domain.user.service;
 
 import com.project.lettertome_be.domain.user.dto.response.UserResponseDto;
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.jwt.dto.AuthUser;
+import com.project.lettertome_be.global.jwt.dto.AuthUser;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

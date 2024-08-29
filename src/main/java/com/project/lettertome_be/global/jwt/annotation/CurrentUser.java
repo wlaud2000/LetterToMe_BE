@@ -1,4 +1,4 @@
-package com.project.lettertome_be.domain.user.jwt.annotation;
+package com.project.lettertome_be.global.jwt.annotation;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

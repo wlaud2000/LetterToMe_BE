@@ -1,4 +1,4 @@
-package com.project.lettertome_be.domain.user.jwt.service;
+package com.project.lettertome_be.global.jwt.service;
 
 import com.project.lettertome_be.global.common.util.RedisUtil;
 import lombok.RequiredArgsConstructor;

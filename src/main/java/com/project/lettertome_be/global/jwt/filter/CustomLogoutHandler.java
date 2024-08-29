@@ -1,7 +1,7 @@
-package com.project.lettertome_be.domain.user.jwt.filter;
+package com.project.lettertome_be.global.jwt.filter;
 
-import com.project.lettertome_be.domain.user.jwt.service.TokenService;
-import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
+import com.project.lettertome_be.global.jwt.service.TokenService;
+import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

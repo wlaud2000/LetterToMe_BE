@@ -1,7 +1,7 @@
 package com.project.lettertome_be.domain.auth.controller;
 
 import com.project.lettertome_be.domain.auth.service.EmailAuthService;
-import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
+import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

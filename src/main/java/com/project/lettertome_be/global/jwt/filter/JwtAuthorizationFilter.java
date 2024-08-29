@@ -1,8 +1,8 @@
-package com.project.lettertome_be.domain.user.jwt.filter;
+package com.project.lettertome_be.global.jwt.filter;
 
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.jwt.userdetails.CustomUserDetails;
-import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
+import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
+import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

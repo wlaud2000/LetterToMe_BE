@@ -1,10 +1,10 @@
 package com.project.lettertome_be.global.config;
 
-import com.project.lettertome_be.domain.user.jwt.filter.CustomLoginFilter;
-import com.project.lettertome_be.domain.user.jwt.filter.CustomLogoutHandler;
-import com.project.lettertome_be.domain.user.jwt.filter.JwtAuthorizationFilter;
-import com.project.lettertome_be.domain.user.jwt.service.TokenService;
-import com.project.lettertome_be.domain.user.jwt.util.JwtUtil;
+import com.project.lettertome_be.global.jwt.filter.CustomLoginFilter;
+import com.project.lettertome_be.global.jwt.filter.CustomLogoutHandler;
+import com.project.lettertome_be.global.jwt.filter.JwtAuthorizationFilter;
+import com.project.lettertome_be.global.jwt.service.TokenService;
+import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import com.project.lettertome_be.domain.user.oauth2.CustomOAuth2UserService;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

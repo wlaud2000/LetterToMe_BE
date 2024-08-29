@@ -1,7 +1,7 @@
-package com.project.lettertome_be.domain.user.jwt.userdetails;
+package com.project.lettertome_be.global.jwt.userdetails;
 
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.domain.user.jwt.dto.AuthUser;
+import com.project.lettertome_be.global.jwt.dto.AuthUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
