@@ -1,9 +1,12 @@
 package com.project.lettertome_be.global.jwt.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.lettertome_be.domain.user.entity.User;
+import com.project.lettertome_be.domain.user.repository.UserRepository;
+import com.project.lettertome_be.global.common.response.ApiResponse;
+import com.project.lettertome_be.global.jwt.exception.SecurityErrorCode;
 import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
 import com.project.lettertome_be.global.jwt.util.JwtUtil;
-import com.project.lettertome_be.domain.user.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -14,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,12 +57,26 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             log.warn("[ JwtAuthorizationFilter ] accessToken 이 만료되었습니다.");
-            throw e; // CustomAuthenticationEntryPoint에서 예외 처리
+            handleException(response, SecurityErrorCode.TOKEN_EXPIRED);
         } catch (SecurityException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-            // 추가된 부분: 잘못된 토큰 예외 처리
             log.warn("[ JwtAuthorizationFilter ] 잘못된 토큰입니다.");
-            throw e; // CustomAuthenticationEntryPoint에서 예외 처리
+            handleException(response, SecurityErrorCode.INVALID_TOKEN);
+        } catch (UsernameNotFoundException e) {
+            log.warn("[ JwtAuthorizationFilter ] 사용자 정보를 찾을 수 없습니다.");
+            handleException(response, SecurityErrorCode.USER_NOT_FOUND);
         }
+    }
+
+    private void handleException(HttpServletResponse response, SecurityErrorCode errorCode) throws IOException {
+        // HTTP 응답 설정
+        response.setStatus(errorCode.getHttpStatus().value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+
+        // 응답 본문을 JSON 형식으로 작성
+        ApiResponse<Void> errorResponse = errorCode.getErrorResponse();
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }
 
     //Access 토큰의 유효성을 검사하는 메서드

@@ -1,12 +1,14 @@
 package com.project.lettertome_be.global.config;
 
+import com.project.lettertome_be.domain.user.oauth2.CustomOAuth2UserService;
+import com.project.lettertome_be.domain.user.repository.UserRepository;
+import com.project.lettertome_be.global.jwt.exception.JwtAccessDeniedHandler;
+import com.project.lettertome_be.global.jwt.exception.JwtAuthenticationEntryPoint;
 import com.project.lettertome_be.global.jwt.filter.CustomLoginFilter;
 import com.project.lettertome_be.global.jwt.filter.CustomLogoutHandler;
 import com.project.lettertome_be.global.jwt.filter.JwtAuthorizationFilter;
 import com.project.lettertome_be.global.jwt.service.TokenService;
 import com.project.lettertome_be.global.jwt.util.JwtUtil;
-import com.project.lettertome_be.domain.user.oauth2.CustomOAuth2UserService;
-import com.project.lettertome_be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,8 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     private final TokenService tokenService;
     private final CustomOAuth2UserService customOAuth2UserService; // CustomOAuth2UserService 주입
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     //인증이 필요하지 않은 url
     private final String[] allowedUrls = {
@@ -109,6 +113,12 @@ public class SecurityConfig {
         // JwtFilter를 CustomLoginFilter 앞에서 동작하도록 필터 체인에 추가
         http
                 .addFilterBefore(new JwtAuthorizationFilter(jwtUtil, userRepository), CustomLoginFilter.class);
+
+        // 인증 및 인가 실패 핸들러 설정
+        http.exceptionHandling(exception -> exception
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+        );
 
         // Logout Filter 추가
         http
