@@ -35,7 +35,7 @@ public class User extends BaseEntity {
     @Column
     private Provider provider;
 
-    @Column(name = "oauth_id", nullable = false, unique = true)
+    @Column(name = "oauth_id", unique = true)
     private String oauthId;
 
     public void changeEmail(String newEmail) {
