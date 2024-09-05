@@ -17,12 +17,12 @@ public class HttpResponseUtil {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void setSuccessResponse(HttpServletResponse response, Object body) throws
+    public static void setSuccessResponse(HttpServletResponse response, HttpStatus httpStatus, Object body) throws
             IOException {
         log.info("[*] Success Response");
-        String responseBody = objectMapper.writeValueAsString(ApiResponse.onSuccess(body));
+        String responseBody = objectMapper.writeValueAsString(ApiResponse.onSuccess(httpStatus,body));
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.OK.value());
+        response.setStatus(httpStatus.value());
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(responseBody);
     }

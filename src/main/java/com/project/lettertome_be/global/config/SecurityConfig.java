@@ -12,8 +12,6 @@ import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -127,10 +125,10 @@ public class SecurityConfig {
                         .addLogoutHandler(new CustomLogoutHandler(tokenService, jwtUtil))
                         //.logoutSuccessUrl("/api/users/login") // 로그아웃 성공 시 리다이렉트할 URL 설정
                         .logoutSuccessHandler((request, response, authentication) -> {
-                            response.setStatus(HttpStatus.OK.value());
+                           /* response.setStatus(HttpStatus.OK.value());
                             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                             response.setCharacterEncoding("UTF-8");
-                            response.getWriter().write("{\"message\":\"로그아웃이 완료되었습니다.\"}");
+                            response.getWriter().write("{\"message\":\"로그아웃이 완료되었습니다.\"}");*/
                         })
                 );
 

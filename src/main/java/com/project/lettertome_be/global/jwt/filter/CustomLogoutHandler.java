@@ -55,7 +55,7 @@ public class CustomLogoutHandler implements LogoutHandler {
                 return;
             }
 
-            HttpResponseUtil.setSuccessResponse(response, "로그아웃이 완료되었습니다.");
+            HttpResponseUtil.setSuccessResponse(response, HttpStatus.OK,"로그아웃이 완료되었습니다.");
 
         } catch (ExpiredJwtException e) {
             log.warn("[ CustomLogoutHandler ] Access Token 이 만료되었습니다.");
