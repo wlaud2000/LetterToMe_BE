@@ -2,7 +2,6 @@ package com.project.lettertome_be.global.jwt.filter;
 
 import com.project.lettertome_be.domain.user.entity.User;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
-import com.project.lettertome_be.global.common.response.ApiResponse;
 import com.project.lettertome_be.global.common.util.HttpResponseUtil;
 import com.project.lettertome_be.global.jwt.exception.SecurityErrorCode;
 import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
@@ -69,8 +68,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     // 예외 발생 시 HttpResponseUtil 을 사용하여 에러 응답을 처리하는 메서드
     private void handleException(HttpServletResponse response, SecurityErrorCode errorCode) throws IOException {
         // HttpResponseUtil을 사용하여 에러 응답을 처리
-        HttpResponseUtil.setErrorResponse(response, errorCode.getHttpStatus(),
-                ApiResponse.onFailure(errorCode.getCode(), errorCode.getMessage()));
+        HttpResponseUtil.setErrorResponse(response, errorCode.getHttpStatus(), errorCode.getErrorResponse());
     }
 
     //Access 토큰의 유효성을 검사하는 메서드
