@@ -1,5 +1,7 @@
 package com.project.lettertome_be.domain.auth.service;
 
+import com.project.lettertome_be.global.common.exception.CustomException;
+import com.project.lettertome_be.global.jwt.exception.SecurityErrorCode;
 import com.project.lettertome_be.global.jwt.service.TokenService;
 import com.project.lettertome_be.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,15 +32,15 @@ public class AuthService {
 
             // Refresh Token 블랙리스트 확인
             if (tokenService.isTokenBlacklisted(refreshToken)) {
-                log.info("[ Auth Service ] 유효하지 않은 리프레시 토큰입니다.");
-                throw new SecurityException("유효하지 않은 리프레시 토큰입니다.");
+                log.info("[ Auth Service ] 블랙리스트로 등록된 토큰입니다.");
+                throw new CustomException(SecurityErrorCode.BLACKLIST_TOKEN);
             }
 
             // 이메일로 저장된 Refresh Token 가져오기
             String storedRefreshToken = tokenService.getRefreshTokenByEmail(email);
             if (storedRefreshToken == null || !storedRefreshToken.equals(refreshToken)) {
                 log.info("[ Auth Service ] 저장된 리프레시 토큰과 일치하지 않습니다.");
-                throw new SecurityException("유효하지 않은 리프레시 토큰입니다.");
+                throw new CustomException(SecurityErrorCode.REFRESH_TOKEN_NOT_FOUND);
             }
 
             log.info("[ Auth Service ] Refresh Token이 유효합니다. 새로운 액세스 토큰을 발급합니다.");

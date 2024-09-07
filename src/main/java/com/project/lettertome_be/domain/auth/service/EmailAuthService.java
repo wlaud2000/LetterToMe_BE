@@ -1,6 +1,8 @@
 package com.project.lettertome_be.domain.auth.service;
 
 import com.project.lettertome_be.domain.user.repository.UserRepository;
+import com.project.lettertome_be.global.common.exception.CustomException;
+import com.project.lettertome_be.global.common.response.UserErrorCode;
 import com.project.lettertome_be.global.common.sender.DefaultEmailSender;
 import com.project.lettertome_be.global.common.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +23,13 @@ public class EmailAuthService {
     @Value("${spring.mail.auth-code-expiration-millis}")
     private long authCodeExpirationMillis; //인증 코드의 유효시간
 
+    private static final String AUTH_CODE_KEY_SUFFIX = ":code";
+
     // 회원가입 시 이메일 인증 코드를 생성하고 전송하는 메서드
     public void sendSignUpEmailAuthCode(String email) {
         // 이메일이 이미 DB에 존재하는지 확인
         if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+            throw new CustomException(UserErrorCode.EMAIL_ALREADY_EXISTS);
         }
 
         String authCode = createCode(); // 인증 코드 생성
@@ -35,24 +39,24 @@ public class EmailAuthService {
 
     // 이메일 인증 코드를 검증하는 메서드
     public void verifyEmailAuthCode(String email, String authCode) {
-        String storedAuthCode = (String) redisUtil.get(email);
+        String storedAuthCode = (String) redisUtil.get(email + AUTH_CODE_KEY_SUFFIX);
 
         if (!authCode.equals(storedAuthCode)) {
-            throw new IllegalArgumentException("인증 코드가 일치하지 않습니다.");
+            throw new CustomException(UserErrorCode.INVALID_AUTH_CODE);
         }
-        redisUtil.delete(email); // 인증 성공 시 Redis에서 인증 코드 삭제
+        redisUtil.delete(email + AUTH_CODE_KEY_SUFFIX); // 인증 성공 시 Redis에서 인증 코드 삭제
     }
 
     // 비밀번호 재설정 시 이메일 인증 코드를 생성하고 전송하는 메서드
     public void sendPasswordResetEmailAuthCode(String email) {
         // 이메일이 DB에 존재하는지 확인
         if (!userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("해당 이메일로 등록된 사용자가 없습니다.");
+            throw new CustomException(UserErrorCode.USER_NOT_FOUND_404);
         }
 
         String authCode = createCode(); // 인증 코드 생성
         emailSender.sendAuthCodeForPasswordReset(email, authCode); // 비밀번호 재설정을 위한 인증 코드 전송
-        redisUtil.save(email + ":code", authCode, authCodeExpirationMillis, TimeUnit.MILLISECONDS); // Redis에 인증 코드 저장
+        redisUtil.save(email + AUTH_CODE_KEY_SUFFIX, authCode, authCodeExpirationMillis, TimeUnit.MILLISECONDS); // Redis에 인증 코드 저장
     }
 
     // 인증 코드 생성 메서드

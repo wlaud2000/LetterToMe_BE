@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 public enum SecurityErrorCode implements BaseErrorCode {
 
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "SEC400_0", "잘못된 토큰입니다."),
+    BLACKLIST_TOKEN(HttpStatus.BAD_REQUEST, "SEC400_1", "블랙리스트로 등록된 토큰입니다."),
 
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "SEC401_0", "인증되지 않은 회원입니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "SEC401_1", "토큰이 만료되었습니다."),
