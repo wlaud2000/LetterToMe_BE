@@ -8,7 +8,9 @@ import com.project.lettertome_be.domain.user.dto.response.SignUpResponseDto;
 import com.project.lettertome_be.domain.user.dto.response.UserResponseDto;
 import com.project.lettertome_be.domain.user.service.UserQueryService;
 import com.project.lettertome_be.domain.user.service.UserService;
+import com.project.lettertome_be.global.common.exception.CustomException;
 import com.project.lettertome_be.global.common.response.ApiResponse;
+import com.project.lettertome_be.global.common.response.ErrorCode;
 import com.project.lettertome_be.global.jwt.annotation.CurrentUser;
 import com.project.lettertome_be.global.jwt.dto.AuthUser;
 import jakarta.validation.Valid;
@@ -16,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/users")
@@ -70,6 +75,17 @@ public class UserController {
     public ApiResponse<String> deleteUser(@CurrentUser AuthUser authUser) {
         userService.deleteUser(authUser);
         return ApiResponse.onSuccess("회원 탈퇴가 완료되었습니다.");
+    }
+
+    @PostMapping("/profile-img")
+    public ApiResponse<String> uploadProfileImage(@CurrentUser AuthUser authUser,
+                                                  @RequestPart("file") MultipartFile file) {
+        try {
+            userService.uploadProfileImage(authUser, file);
+            return ApiResponse.onSuccess("프로필 사진이 성공적으로 업로드되었습니다.");
+        } catch (IOException e) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR_500);
+        }
     }
 
     //테스트
