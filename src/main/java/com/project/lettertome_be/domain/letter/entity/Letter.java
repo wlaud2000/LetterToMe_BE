@@ -39,6 +39,16 @@ public class Letter extends BaseEntity {
     @ColumnDefault("false")
     private boolean isOpened;
 
-    @Column(name = "d_day", nullable = false)
+    @Column(name = "d_day")
     private Integer dDay;
+
+    // 발송 후 isOpened 상태 변경 메서드
+    public void setOpened(boolean opened) {
+        this.isOpened = opened;
+    }
+
+    // dDay를 설정하는 메서드 추가
+    public void setDDay(int dDay) {
+        this.dDay = dDay;
+    }
 }

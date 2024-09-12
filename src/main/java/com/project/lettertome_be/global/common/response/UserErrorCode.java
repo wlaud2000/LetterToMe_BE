@@ -13,7 +13,10 @@ public enum UserErrorCode implements BaseErrorCode {
     USER_NOT_FOUND_404(HttpStatus.NOT_FOUND, "USER404_0", "사용자가 존재하지 않습니다."),
 
     // 이메일 인증 관련 에러
-    INVALID_AUTH_CODE(HttpStatus.BAD_REQUEST, "USER400_1", "유효하지 않은 인증 코드입니다.");
+    INVALID_AUTH_CODE(HttpStatus.BAD_REQUEST, "USER400_1", "유효하지 않은 인증 코드입니다."),
+
+    // 이메일 전송 관련 에러
+    EMAIL_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "USER500_0", "이메일 전송 중 오류가 발생했습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
