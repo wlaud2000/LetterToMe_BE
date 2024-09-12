@@ -21,12 +21,12 @@ import java.time.temporal.ChronoUnit;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
 public class LetterService {
 
     private final LetterRepository letterRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public CreateLetterResponseDto createLetter(CreateLetterRequestDto requestDto, AuthUser authUser) {
         User user = userRepository.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND_404));

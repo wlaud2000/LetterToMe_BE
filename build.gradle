@@ -74,6 +74,10 @@ dependencies {
 
     // Email-verify
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //Spring Retry
+    implementation 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework:spring-aspects'
 }
 
 tasks.named('test') {
