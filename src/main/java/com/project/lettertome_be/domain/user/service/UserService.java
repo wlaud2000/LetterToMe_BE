@@ -12,9 +12,20 @@ import com.project.lettertome_be.global.common.response.UserErrorCode;
 import com.project.lettertome_be.global.jwt.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -24,6 +35,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; //비밀번호 암호화
+    private final S3Client s3Client;
+
+    @Value("${cloud.aws.s3.bucket-name}")
+    private String bucketName;
+
+    @Value("${cloud.aws.region}")
+    private String region;
 
     // 회원가입
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
@@ -86,6 +104,56 @@ public class UserService {
         userRepository.delete(user);
 
         log.info("[User Service] 사용자가 성공적으로 삭제되었습니다.");
+    }
+
+    public void uploadProfileImage(AuthUser authUser, MultipartFile file) throws IOException {
+        User user = userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND_404));
+
+        // 고유한 파일명 생성
+        String originalFilename = file.getOriginalFilename(); //기존 파일명
+        String fileExtension = Objects.requireNonNull(originalFilename).substring(originalFilename.lastIndexOf(".")); //확장자 추출
+        String newFileName = UUID.randomUUID() + fileExtension; //고유한 파일명 + 확장자 -> 새로운 고유한 파일명 생성
+
+        // S3에 파일 업로드
+        String s3Url = uploadFileToS3(file, newFileName);
+
+        // 업로드된 파일의 URL을 User 엔티티에 저장
+        user.changeProfileImg(s3Url);
+        log.info("[User Service] 프로필 사진이 S3에 업로드되었습니다 -> {}", s3Url);
+    }
+
+    private String uploadFileToS3(MultipartFile file, String fileName) throws IOException {
+        String filePath = "profile-images/" + fileName;
+
+        // 확장자별 Content-Type 설정
+        String contentType = getContentType(fileName);
+
+        // S3에 파일 업로드 (Content-Type 포함)
+        s3Client.putObject(PutObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(filePath)
+                        .contentType(contentType)  // Content-Type 설정
+                        .build(),
+                RequestBody.fromBytes(file.getBytes()));
+
+        // S3 URL 반환
+        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, filePath);
+    }
+
+    // 확장자별로 Content-Type을 설정하는 메서드
+    private String getContentType(String fileName) {
+        // 확장자 추출
+        String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+
+        // 확장자별 Content-Type 매핑
+        Map<String, String> contentTypeMap = new HashMap<>();
+        contentTypeMap.put("jpeg", "image/jpeg");
+        contentTypeMap.put("jpg", "image/jpeg");
+        contentTypeMap.put("png", "image/png");
+
+        // 맵에서 파일 확장자에 맞는 MIME 타입을 찾아 반환, 기본 Content-Type은 binary/octet-stream
+        return contentTypeMap.getOrDefault(fileExtension, "application/octet-stream");
     }
 
 }

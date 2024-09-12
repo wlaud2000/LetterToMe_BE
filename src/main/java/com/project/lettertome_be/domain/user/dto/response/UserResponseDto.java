@@ -14,6 +14,8 @@ public record UserResponseDto (
 
         String nickName,
 
+        String profileImg,
+
         int writtenLetter,
 
         int receviedLetter,
@@ -30,6 +32,7 @@ public record UserResponseDto (
                 .userId(user.getId())
                 .email(user.getEmail())
                 .nickName(user.getNickname())
+                .profileImg(user.getProfileImg())
                 .writtenLetter(1)
                 .receviedLetter(1)
                 .createdAt(user.getCreatedAt())

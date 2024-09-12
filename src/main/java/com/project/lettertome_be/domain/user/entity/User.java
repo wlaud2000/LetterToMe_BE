@@ -28,8 +28,8 @@ public class User extends BaseEntity {
     @Column
     private String password;
 
-    /*@Column(name = "profile_img")
-    private String profileImg;*/
+    @Column(name = "profile_img")
+    private String profileImg;
 
     @Enumerated(EnumType.STRING)
     @Column
@@ -54,6 +54,11 @@ public class User extends BaseEntity {
     public User updateNickname(String newNickname) {
         this.nickname = newNickname;
         return this;  // 메서드 체이닝을 위해 this 반환
+    }
+
+    // 프로필 이미지 변경 메서드
+    public void changeProfileImg(String profileImg) {
+        this.profileImg = profileImg;
     }
 
 }

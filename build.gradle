@@ -75,9 +75,16 @@ dependencies {
     // Email-verify
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+
     //Spring Retry
     implementation 'org.springframework.retry:spring-retry'
     implementation 'org.springframework:spring-aspects'
+    
+    // AWS S3 의존성
+    implementation platform('software.amazon.awssdk:bom:2.20.56')
+    implementation 'software.amazon.awssdk:s3'
+    implementation 'software.amazon.awssdk:sts'
+
 }
 
 tasks.named('test') {
