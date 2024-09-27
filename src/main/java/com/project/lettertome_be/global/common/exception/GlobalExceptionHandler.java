@@ -1,6 +1,7 @@
 package com.project.lettertome_be.global.common.exception;
 
 import com.project.lettertome_be.global.common.response.ApiResponse;
+import com.project.lettertome_be.global.common.response.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,24 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    //컨트롤러 메서드에서 @Valid 어노테이션을 사용하여 DTO의 유효성 검사를 수행
+    // 컨트롤러 메서드에서 @Valid 어노테이션을 사용하여 DTO의 유효성 검사를 수행
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex) {
-        //검사에 실패한 필드와 그에 대한 메시지를 저장하는 Map
+        // 검사에 실패한 필드와 그에 대한 메시지를 저장하는 Map
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        //에러 코드, 메시지와 함께 errors를 반환
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.onFailure("VALID400", "Validation Failed", errors));
+
+        ErrorCode validationErrorCode = ErrorCode.VALIDATION_FAILED; // BaseErrorCode로 통일
+        ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(
+                validationErrorCode.getCode(),
+                validationErrorCode.getMessage(),
+                errors
+        );
+        // 에러 코드, 메시지와 함께 errors를 반환
+        return ResponseEntity.status(validationErrorCode.getHttpStatus()).body(errorResponse);
     }
 
     //애플리케이션에서 발생하는 커스텀 예외를 처리
