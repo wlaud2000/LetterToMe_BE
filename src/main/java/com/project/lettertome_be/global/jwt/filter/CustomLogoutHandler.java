@@ -34,7 +34,7 @@ public class CustomLogoutHandler implements LogoutHandler {
             if (accessToken == null) {
                 log.warn("[ CustomLogoutHandler ] Access Token 이 없습니다.");
                 HttpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED,
-                        ApiResponse.onFailure("SEC401_0", "Access Token 이 없습니다."));
+                        ApiResponse.onFailure(HttpStatus.UNAUTHORIZED,"SEC401_0", "Access Token 이 없습니다."));
                 return;
             }
 

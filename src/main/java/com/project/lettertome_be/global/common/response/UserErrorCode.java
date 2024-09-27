@@ -21,9 +21,4 @@ public enum UserErrorCode implements BaseErrorCode {
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
-
-    @Override
-    public ApiResponse<Void> getErrorResponse() {
-        return ApiResponse.onFailure(code, message);
-    }
 }

@@ -97,7 +97,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         // 실패 응답 처리
         HttpResponseUtil.setErrorResponse(response, errorCode.getHttpStatus(),
-                ApiResponse.onFailure(errorCode.getCode(), errorCode.getMessage()));
+                ApiResponse.onFailure(HttpStatus.UNAUTHORIZED,errorCode.getCode(), errorCode.getMessage()));
     }
 
     private SecurityErrorCode getErrorCode(AuthenticationException failed) {
