@@ -7,6 +7,7 @@ public interface BaseErrorCode {
     HttpStatus getHttpStatus();
     String getCode();
     String getMessage();
-    ApiResponse<Void> getErrorResponse();
-
+    default ApiResponse<Void> getErrorResponse() {
+        return ApiResponse.onFailure(getHttpStatus(), getCode(), getMessage());
+    }
 }

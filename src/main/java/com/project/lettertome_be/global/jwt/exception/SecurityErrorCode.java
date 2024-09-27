@@ -1,6 +1,5 @@
 package com.project.lettertome_be.global.jwt.exception;
 
-import com.project.lettertome_be.global.common.response.ApiResponse;
 import com.project.lettertome_be.global.common.response.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,9 +27,5 @@ public enum SecurityErrorCode implements BaseErrorCode {
     private final String code;
     private final String message;
 
-    @Override
-    public ApiResponse<Void> getErrorResponse() {
-        return ApiResponse.onFailure(code, message);
-    }
 }
 

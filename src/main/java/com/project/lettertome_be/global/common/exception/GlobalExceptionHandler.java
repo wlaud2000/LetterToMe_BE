@@ -1,6 +1,8 @@
 package com.project.lettertome_be.global.common.exception;
 
+import com.nimbusds.oauth2.sdk.GeneralException;
 import com.project.lettertome_be.global.common.response.ApiResponse;
+import com.project.lettertome_be.global.common.response.BaseErrorCode;
 import com.project.lettertome_be.global.common.response.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,7 @@ public class GlobalExceptionHandler {
 
         ErrorCode validationErrorCode = ErrorCode.VALIDATION_FAILED; // BaseErrorCode로 통일
         ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(
+                validationErrorCode.getHttpStatus(),
                 validationErrorCode.getCode(),
                 validationErrorCode.getMessage(),
                 errors
@@ -37,7 +40,7 @@ public class GlobalExceptionHandler {
     }
 
     //애플리케이션에서 발생하는 커스텀 예외를 처리
-    @ExceptionHandler(CustomException.class)
+    @ExceptionHandler(GeneralException.class)
     public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException ex) {
         //예외가 발생하면 로그 기록
         log.warn("[ CustomException ]: {}", ex.getErrorCode().getMessage());
@@ -46,11 +49,19 @@ public class GlobalExceptionHandler {
                 .body(ex.getErrorCode().getErrorResponse());
     }
 
-    //정의되지 않은 모든 예외를 처리
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<String>> handleAllException(Exception ex) {
-        log.error("[ Internal Server Error ]: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.onFailure("500", "Internal Server Error", ex.getMessage()));
+    // 그 외의 정의되지 않은 모든 예외 처리
+    @ExceptionHandler({Exception.class})
+    public ResponseEntity<ApiResponse<String>> handleAllException(Exception e) {
+        log.error("[WARNING] Internal Server Error : {} ", e.getMessage());
+        BaseErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR_500;
+        ApiResponse<String> errorResponse = ApiResponse.onFailure(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                errorCode.getCode(),
+                errorCode.getMessage(),
+                e.getMessage()
+        );
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(errorResponse);
     }
 }
