@@ -1,9 +1,9 @@
 package com.project.lettertome_be.global.jwt.util;
 
 import com.project.lettertome_be.domain.user.entity.User;
-import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
 import com.project.lettertome_be.domain.user.repository.UserRepository;
 import com.project.lettertome_be.global.common.util.RedisUtil;
+import com.project.lettertome_be.global.jwt.userdetails.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -22,7 +22,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -96,14 +95,6 @@ public class JwtUtil {
     public String createJwtRefreshToken(CustomUserDetails customUserDetails) {
         Instant expiration = Instant.now().plusMillis(refreshExpMs);
         String refreshToken = tokenProvider(customUserDetails, expiration);
-
-        //Refresh Token 저장
-        redisUtil.save(
-                customUserDetails.getUsername() + ":refresh",
-                refreshToken,
-                refreshExpMs,
-                TimeUnit.MILLISECONDS
-        );
 
         return refreshToken;
     }
