@@ -13,12 +13,11 @@ public class TokenService {
     private final RedisUtil redisUtil;
 
     private static final String BLACKLIST_PREFIX = "blacklist:";
-    private static final long BLACKLIST_TTL_MS = 2 * 24 * 3600 * 1000L; // 2일
 
     //주어진 토큰을 블랙리스트에 추가하고, 설정한 TTL만큼 유지
-    public void addToBlacklist(String token) {
+    public void addToBlacklist(String token, long ttl) {
         String key = BLACKLIST_PREFIX + token;
-        redisUtil.save(key, true, BLACKLIST_TTL_MS, TimeUnit.MILLISECONDS);
+        redisUtil.save(key, true, ttl, TimeUnit.MILLISECONDS);
     }
 
     //이메일로 Redis에서 토큰 조회

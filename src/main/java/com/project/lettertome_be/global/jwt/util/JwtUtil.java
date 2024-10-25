@@ -22,6 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -96,7 +97,33 @@ public class JwtUtil {
         Instant expiration = Instant.now().plusMillis(refreshExpMs);
         String refreshToken = tokenProvider(customUserDetails, expiration);
 
+        //Refresh Token 저장
+        redisUtil.save(
+                customUserDetails.getUsername() + ":refresh",
+                refreshToken,
+                refreshExpMs,
+                TimeUnit.MILLISECONDS
+        );
+
         return refreshToken;
+    }
+
+    // 토큰의 남은 만료 시간을 계산하는 메서드
+    public long getRemainingExpiration(String token) {
+        try {
+            Date expiration = Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getExpiration();
+
+            long remainingTime = expiration.getTime() - System.currentTimeMillis();
+            return remainingTime > 0 ? remainingTime : 0;
+        } catch (ExpiredJwtException e) {
+            // 이미 만료된 경우 0을 반환
+            return 0;
+        }
     }
 
     // 임시 AccessToken을 생성하는 메서드

@@ -41,18 +41,23 @@ public class CustomLogoutHandler implements LogoutHandler {
             // 토큰 유효성 검증: 예외 발생 시 catch 블록으로 이동
             jwtUtil.validateToken(accessToken);
 
+            // 액세스 토큰 남은 유효시간 계산
+            long remainingTime = jwtUtil.getRemainingExpiration(accessToken);
+
+            // 만료 시간이 0보다 큰 경우에만 블랙리스트에 추가
+            if (remainingTime > 0) {
+                tokenService.addToBlacklist(accessToken, remainingTime);
+                log.info("[ CustomLogoutHandler ] Access Token 블랙리스트 처리 완료.");
+            }
+
             String email = jwtUtil.getEmail(accessToken);
             String refreshToken = tokenService.getRefreshTokenByEmail(email);
 
             if (refreshToken != null) {
-                tokenService.addToBlacklist(refreshToken);
                 tokenService.deleteTokenByEmail(email);
-                log.info("[ CustomLogoutHandler ] 리프레시 토큰 삭제 및 블랙리스트 처리 완료.");
+                log.info("[ CustomLogoutHandler ] 리프레시 토큰 삭제 완료.");
             } else {
-                log.warn("[ CustomLogoutHandler ] 리프레시 토큰이 존재하지 않습니다.");
-                HttpResponseUtil.setErrorResponse(response, SecurityErrorCode.REFRESH_TOKEN_NOT_FOUND.getHttpStatus(),
-                        SecurityErrorCode.REFRESH_TOKEN_NOT_FOUND.getErrorResponse());
-                return;
+                log.info("[ CustomLogoutHandler ] 리프레시 토큰이 없으므로 Access Token 만 블랙리스트 처리.");
             }
 
             HttpResponseUtil.setSuccessResponse(response, HttpStatus.OK,"로그아웃이 완료되었습니다.");
@@ -84,6 +89,3 @@ public class CustomLogoutHandler implements LogoutHandler {
         }
     }
 }
-
-
-
